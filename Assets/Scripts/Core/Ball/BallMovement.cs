@@ -5,12 +5,14 @@ using UnityEngine.EventSystems;
 public class BallMovement : MonoBehaviour
 {
     public float ballForce;
-    public bool fristCollisionDone = false;
+    public bool fristCollisionDone = true;
     public Rigidbody2D rb2D;
     public Vector2 touchStartPos;
     public Vector2 touchEndPos;
     public Vector2 touchDirection;
-    
+    public CubeObjectPool cubeObjectPool;
+
+
     // private void Update()
     // {
     //     if (Input.touchCount > 0)
@@ -50,8 +52,18 @@ public class BallMovement : MonoBehaviour
     {
         if (col.gameObject.CompareTag("LowerWall"))
         {
-            rb2D.velocity = Vector2.zero;
-            rb2D.constraints = RigidbodyConstraints2D.FreezeAll;
+            if (fristCollisionDone)
+            {
+                Debug.Log("First time collision!");
+                fristCollisionDone = false;
+            }
+            else if (!fristCollisionDone)
+            {
+                cubeObjectPool.NextMove();
+                Debug.Log("Second time and So on Collision!");
+                rb2D.velocity = Vector2.zero;
+                rb2D.constraints = RigidbodyConstraints2D.FreezeAll;
+            }
         }
     }
 }

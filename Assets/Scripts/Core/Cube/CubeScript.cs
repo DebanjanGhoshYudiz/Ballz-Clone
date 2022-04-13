@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -11,6 +8,7 @@ public class CubeScript : MonoBehaviour
     public TextMeshPro cubeText;
     public SpriteRenderer cubeSpriteRenderer;
     public Renderer tmproTextRenderer;
+    
 
     private void Start()
     {
@@ -53,9 +51,9 @@ public class CubeScript : MonoBehaviour
             }
             else if (cubeNumber == 0)
             {
-                Destroy(gameObject);
+                //Destroy(gameObject);
             }
-            
+
         }
     }
 }
