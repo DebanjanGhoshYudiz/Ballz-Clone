@@ -51,9 +51,10 @@ public class CubeScript : MonoBehaviour
             }
             else if (cubeNumber == 0)
             {
-                //Destroy(gameObject);
+                Destroy(gameObject);
             }
 
         }
     }
+    
 }

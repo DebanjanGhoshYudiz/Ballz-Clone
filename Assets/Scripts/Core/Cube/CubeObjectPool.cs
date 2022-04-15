@@ -1,24 +1,21 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Net.Sockets;
-using TreeEditor;
+using System.Security.Cryptography;
 using UnityEngine;
-using UnityEngine.PlayerLoop;
 using Random = UnityEngine.Random;
 
 public class CubeObjectPool : MonoBehaviour
 {
-    public int noOfCubes;
+    public int xSize;
     public float cubeOffset;
     public float cubeOffsetDown;
-    public List<GameObject> cubes;
+    public List<GameObject> cubesList;
     public GameObject cubePrefab;
     public GameObject prefab;
     public Transform cubeHolder;
-    public float gridX;
-    public float gridY;
-    public float radius;
+    public float setYPos;
+    public float setXPos;
+    public System.Random rand = new System.Random();
+
 
     private void Start()
     {
@@ -27,29 +24,37 @@ public class CubeObjectPool : MonoBehaviour
 
     public void CubeSpawner()
     {
-        for (int x = 0; x < gridY; x++)
+        xSize = 5;
+        for (int x = 0; x < xSize; x++)
         {
-            Vector3 newPos = new Vector3(Random.Range(0, 5) + -1.96f, 2.40f) * cubeOffset;
-            if (Physics2D.OverlapCircle(newPos, radius) == null)
+            if (Random.Range(0, 100) >= 50)
             {
-                prefab = Instantiate(cubePrefab, newPos, Quaternion.identity, cubeHolder);
-                cubes.Add(prefab);
+                Vector3 randomXPos = new Vector3(x, setYPos) * cubeOffset;
+                prefab = Instantiate(cubePrefab, randomXPos, Quaternion.identity, cubeHolder);
+                prefab.transform.position = new Vector3(prefab.transform.position.x + setXPos, prefab.transform.position.y);
+                cubesList.Add(prefab);
             }
-            //prefab.SetActive(false);
-            //cubes.Add(prefab);
         }
+
     }
 
     public void NextMove()
     {
-        for (int cube = 0; cube < cubes.Count; cube++)
+        for (int cube = 0; cube < cubesList.Count; cube++)
         {
-            cubes[cube].transform.position =
-                new Vector2(cubes[cube].transform.position.x, cubes[cube].transform.position.y + cubeOffsetDown);
-            cubes.Remove(cubes[cube]);
+            if (cubesList[cube] != null)
+            {
+                cubesList[cube].transform.position -= new Vector3(0, -1.5f) * cubeOffsetDown;
+            }
         }
+
         CubeSpawner();
     }
+    
 }
 
+
+// Decide Spawn.
+// Random Next (Unquie Random numbers). 
+// 
 
