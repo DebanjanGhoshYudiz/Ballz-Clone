@@ -1,9 +1,12 @@
+using System;
 using UnityEngine;
+using UnityEngine.UI;
 
 [CreateAssetMenu(fileName = "CoinData", menuName = "Scripts/Core/ScriptableObject/CoinData")]
 public class CoinManager : ScriptableObject
 {
     public int noOfCoinsCollected;
+    
     
     public void SetCoins()
     {
@@ -14,4 +17,8 @@ public class CoinManager : ScriptableObject
     {
         PlayerPrefs.GetInt("coins", noOfCoinsCollected);
     }
+
+    
+
+    
 }

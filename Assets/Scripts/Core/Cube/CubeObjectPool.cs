@@ -8,13 +8,15 @@ public class CubeObjectPool : MonoBehaviour
     public int xSize;
     public float cubeOffset;
     public float cubeOffsetDown;
-    public List<GameObject> cubesList;
-    public GameObject cubePrefab;
-    public GameObject prefab;
+    public List<CubeScript> cubesList;
+    public CubeScript cubePrefab;
+    public CubeScript prefab;
     public Transform cubeHolder;
     public float setYPos;
     public float setXPos;
+    public ScoreManager scoreManager;
     public System.Random rand = new System.Random();
+    public int noOfRowSpawned;
 
 
     private void Start()
@@ -32,9 +34,15 @@ public class CubeObjectPool : MonoBehaviour
                 Vector3 randomXPos = new Vector3(x, setYPos) * cubeOffset;
                 prefab = Instantiate(cubePrefab, randomXPos, Quaternion.identity, cubeHolder);
                 prefab.transform.position = new Vector3(prefab.transform.position.x + setXPos, prefab.transform.position.y);
+                int levelCubeNumber = Random.Range(1, 2) + noOfRowSpawned;
+                prefab.UpdateCubeNumber(levelCubeNumber);
                 cubesList.Add(prefab);
             }
+
+            noOfRowSpawned++;
         }
+        
+        
 
     }
 
@@ -47,7 +55,7 @@ public class CubeObjectPool : MonoBehaviour
                 cubesList[cube].transform.position -= new Vector3(0, -1.5f) * cubeOffsetDown;
             }
         }
-
+        scoreManager.score++;
         CubeSpawner();
     }
     

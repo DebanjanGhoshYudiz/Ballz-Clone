@@ -13,9 +13,13 @@ public class CubeScript : MonoBehaviour
     private void Start()
     {
         tmproTextRenderer.sortingOrder = 2;
-        cubeNumber = Random.Range(1, 100);
-        cubeText.text = cubeNumber.ToString();
+        
         CubeColorChange();
+    }
+
+    public void UpdateCubeNumber(int number)
+    {
+        cubeText.text = number.ToString();
     }
 
     public void CubeColorChange()
@@ -49,7 +53,7 @@ public class CubeScript : MonoBehaviour
                 cubeText.text = cubeNumber.ToString();
                 CubeColorChange();
             }
-            else if (cubeNumber == 0)
+            else if (cubeNumber == 1)
             {
                 Destroy(gameObject);
             }
