@@ -97,6 +97,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coinManagerScriptableObj: {fileID: 11400000, guid: 46cf8f80db745435d926cd4fa7af0fb3, type: 2}
+  coinSfxAudioClip: {fileID: 8300000, guid: 53c9ae03f0d914f45bfac8216e129e26, type: 3}
 --- !u!61 &8444336872440806055
 BoxCollider2D:
   m_ObjectHideFlags: 0

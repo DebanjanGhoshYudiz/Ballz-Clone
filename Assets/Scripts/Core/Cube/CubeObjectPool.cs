@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Security.Cryptography;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -15,8 +14,9 @@ public class CubeObjectPool : MonoBehaviour
     public float setYPos;
     public float setXPos;
     public ScoreManager scoreManager;
-    public System.Random rand = new System.Random();
     public int noOfRowSpawned;
+    public AudioClip nextLevelAudioClip;
+    public int levelCubeNumber;
 
 
     private void Start()
@@ -34,7 +34,7 @@ public class CubeObjectPool : MonoBehaviour
                 Vector3 randomXPos = new Vector3(x, setYPos) * cubeOffset;
                 prefab = Instantiate(cubePrefab, randomXPos, Quaternion.identity, cubeHolder);
                 prefab.transform.position = new Vector3(prefab.transform.position.x + setXPos, prefab.transform.position.y);
-                int levelCubeNumber = Random.Range(1, 2) + noOfRowSpawned;
+                levelCubeNumber = Random.Range(1, 4) + noOfRowSpawned;
                 prefab.UpdateCubeNumber(levelCubeNumber);
                 cubesList.Add(prefab);
             }
@@ -56,6 +56,7 @@ public class CubeObjectPool : MonoBehaviour
             }
         }
         scoreManager.score++;
+        AudioManager.instance.PlaySfx(nextLevelAudioClip);
         CubeSpawner();
     }
     

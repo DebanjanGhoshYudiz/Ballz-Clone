@@ -1,7 +1,5 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 using UnityEngine;
 
 public class BallManager : MonoBehaviour
@@ -23,7 +21,7 @@ public class BallManager : MonoBehaviour
 
     private void Start()
     {
-        CreateBall(size);
+        //CreateBall(size);
     }
 
     public void CreateBall( int mainBallSize)
@@ -50,12 +48,13 @@ public class BallManager : MonoBehaviour
             ball.gameObject.SetActive(true);
             ball.constraints = RigidbodyConstraints2D.None;
             ball.AddForce(direciton * ballForce, ForceMode2D.Force);
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(0.6f);
         }
     }
 
     public void CollectBall(Rigidbody2D anotherBall)
     {
+        anotherBall.transform.position = mainBall.transform.position;
         anotherBall.gameObject.SetActive(false);
         ballCounter--;
         if (ballCounter == 0)
@@ -67,6 +66,6 @@ public class BallManager : MonoBehaviour
 
     private void OnDisable()
     {
-        swipeControler.Swipe += ThrowBall;
+        swipeControler.Swipe -= ThrowBall;
     }
 }

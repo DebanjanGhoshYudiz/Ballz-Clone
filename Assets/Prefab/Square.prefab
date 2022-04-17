@@ -127,6 +127,7 @@ MonoBehaviour:
   cubeText: {fileID: 5905788562284392772}
   cubeSpriteRenderer: {fileID: 5905788561334018528}
   tmproTextRenderer: {fileID: 5905788562284392775}
+  cubeSfxAudioClip: {fileID: 8300000, guid: 83b1d4033c44d864caf0464d8ff70dc6, type: 3}
 --- !u!1 &5905788562284392762
 GameObject:
   m_ObjectHideFlags: 0

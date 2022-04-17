@@ -1,43 +1,27 @@
-using System;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 public class BallMovement : MonoBehaviour
 {
-    public bool fristCollisionDone = true;
+    public bool firstCollisionDone = true;
     public Rigidbody2D rb2D;
 
-
-    // private void OnMouseDown()
-    // {
-    //     Debug.Log("Mouse down!");
-    //     rb2D.constraints = RigidbodyConstraints2D.None;
-    //     touchStartPos = Input.mousePosition;
-    // }
-    //
-    // private void OnMouseUp()
-    // {
-    //     Debug.Log("Mouse Up!");
-    //     touchEndPos = Input.mousePosition;
-    //     touchDirection = touchStartPos - touchEndPos;
-    //     rb2D.AddForce(touchDirection * ballForce, ForceMode2D.Force);
-    // }
+    
 
     private void OnCollisionEnter2D(Collision2D col)
     {
         if (col.gameObject.CompareTag("LowerWall"))
         {
-            if (fristCollisionDone)
+            if (firstCollisionDone)
             {
                 Debug.Log("First time collision!");
-                fristCollisionDone = false;
+                firstCollisionDone = false;
             }
-            else if (!fristCollisionDone)
+            else if (!firstCollisionDone)
             {
                 Debug.Log("Second time and So on Collision!");
                 rb2D.velocity = Vector2.zero;
                 rb2D.constraints = RigidbodyConstraints2D.FreezeAll;
-                FindObjectOfType<BallManager>().CollectBall(this.rb2D);
+                FindObjectOfType<BallManager>().CollectBall(rb2D);
             }
         }
     }

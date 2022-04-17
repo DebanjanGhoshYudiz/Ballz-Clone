@@ -5,6 +5,7 @@ public class MainMenuScreen : MonoBehaviour
     public GameStateManager gameStateManager;
     public CoinManager coinManager;
     public Canvas mainMenuCanvas;
+    public ScoreManager scoreManager;
 
     private void Start()
     {
@@ -20,6 +21,7 @@ public class MainMenuScreen : MonoBehaviour
     {
         gameStateManager.currentGameState = GameState.Gameplay;
         gameStateManager.main?.Invoke();
+        scoreManager.ScoreReset();
     }
 
     public void OnClickQuit()
