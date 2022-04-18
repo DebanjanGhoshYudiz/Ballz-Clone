@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
-    public GameStateManager gameStateManager;
-    public MainMenuScreen mainMenuScreen;
-    public GameplayScreen gameplayScreen;
-    public PauseScreen pauseScreen;
-    public GameOverScreen gameOverScreen;
+    [SerializeField] private GameStateManager gameStateManager;
+    [SerializeField] private MainMenuScreen mainMenuScreen;
+    [SerializeField] private GameplayScreen gameplayScreen;
+    [SerializeField] private PauseScreen pauseScreen;
+    [SerializeField] private GameOverScreen gameOverScreen;
 
 
 

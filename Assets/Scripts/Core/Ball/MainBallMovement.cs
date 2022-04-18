@@ -1,15 +1,12 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class MainBallMovement : MonoBehaviour
 {
-    public SwipeController swipeControler;
-    public Rigidbody2D mainBallRd2D;
+    [SerializeField] private SwipeController swipeControler;
+    [SerializeField] private Rigidbody2D mainBallRd2D;
+    [SerializeField] private CubeObjectPool cubeObjectPool;
+    private bool _firstCollisionDone = true;
     public float ballForce;
-    public bool firstCollisionDone = true;
-    public CubeObjectPool cubeObjectPool;
 
     private void OnEnable()
     {
@@ -26,12 +23,12 @@ public class MainBallMovement : MonoBehaviour
     {
         if (col.gameObject.CompareTag("LowerWall"))
         {
-            if (firstCollisionDone)
+            if (_firstCollisionDone)
             {
                 Debug.Log("First time collision!");
-                firstCollisionDone = false;
+                _firstCollisionDone = false;
             }
-            else if (!firstCollisionDone)
+            else if (!_firstCollisionDone)
             {
                 Debug.Log("Second time and So on Collision!");
                 mainBallRd2D.velocity = Vector2.zero;

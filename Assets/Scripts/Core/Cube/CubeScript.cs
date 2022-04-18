@@ -3,11 +3,12 @@ using UnityEngine;
 
 public class CubeScript : MonoBehaviour
 {
+    [SerializeField] private TextMeshPro cubeText;
+    [SerializeField] private AudioClip cubeSfxAudioClip;
+    [SerializeField] private Renderer tmproTextRenderer;
+    [SerializeField] private SpriteRenderer cubeSpriteRenderer;
     public int cubeNumber;
-    public TextMeshPro cubeText;
-    public SpriteRenderer cubeSpriteRenderer;
-    public Renderer tmproTextRenderer;
-    public AudioClip cubeSfxAudioClip;
+    
     
 
     private void Start()

@@ -3,33 +3,36 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// AudioManager
 public class AudioManager : MonoBehaviour
 {
     public static AudioManager instance;
-    public AudioSource sfxAudioSource;
+    private AudioSource _sfxAudioSource;
 
     private void Awake()
     {
         instance = this;
-        sfxAudioSource = gameObject.AddComponent<AudioSource>();
+        // Adding AudioSource To the Game Object.
+        _sfxAudioSource = gameObject.AddComponent<AudioSource>();
         Debug.Log("Sfx Source Added!");
     }
     
     public void PlaySfx(AudioClip sfxAudioClip)
     {
         Debug.Log("Play Sfx");
-        sfxAudioSource.PlayOneShot(sfxAudioClip);
+        // Sfx Played in OneShot
+        _sfxAudioSource.PlayOneShot(sfxAudioClip);
     }
     
     
 
     public void StopSfx()
     {
-        sfxAudioSource.volume = 0;
+        _sfxAudioSource.volume = 0;
     }
 
     public void PlaySfx()
     {
-        sfxAudioSource.volume = 1;
+        _sfxAudioSource.volume = 1;
     }
 }

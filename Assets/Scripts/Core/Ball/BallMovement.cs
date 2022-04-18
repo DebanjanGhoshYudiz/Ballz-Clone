@@ -2,21 +2,19 @@ using UnityEngine;
 
 public class BallMovement : MonoBehaviour
 {
-    public bool firstCollisionDone = true;
-    public Rigidbody2D rb2D;
-
+    [SerializeField] private Rigidbody2D rb2D;
+    private bool _firstCollisionDone = true;
     
-
     private void OnCollisionEnter2D(Collision2D col)
     {
         if (col.gameObject.CompareTag("LowerWall"))
         {
-            if (firstCollisionDone)
+            if (_firstCollisionDone)
             {
                 Debug.Log("First time collision!");
-                firstCollisionDone = false;
+                _firstCollisionDone = false;
             }
-            else if (!firstCollisionDone)
+            else if (!_firstCollisionDone)
             {
                 Debug.Log("Second time and So on Collision!");
                 rb2D.velocity = Vector2.zero;

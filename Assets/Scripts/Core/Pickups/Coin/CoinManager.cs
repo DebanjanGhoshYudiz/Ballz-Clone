@@ -6,8 +6,9 @@ using UnityEngine.UI;
 public class CoinManager : ScriptableObject
 {
     public int noOfCoinsCollected;
+    public Action updateCoin;
     
-    
+
     public void SetCoins()
     {
         PlayerPrefs.SetInt("coins", noOfCoinsCollected);
@@ -18,6 +19,7 @@ public class CoinManager : ScriptableObject
         PlayerPrefs.GetInt("coins", noOfCoinsCollected);
     }
 
+    
     
 
     

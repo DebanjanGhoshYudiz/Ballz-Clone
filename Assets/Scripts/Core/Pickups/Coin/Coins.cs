@@ -4,8 +4,8 @@ using UnityEngine.UI;
 
 public class Coins : MonoBehaviour
 {
-    public CoinManager coinManagerScriptableObj;
-    public AudioClip coinSfxAudioClip;
+    [SerializeField] private CoinManager coinManagerScriptableObj;
+    [SerializeField] private AudioClip coinSfxAudioClip;
 
     private void OnTriggerEnter2D(Collider2D col)
     {
@@ -14,6 +14,7 @@ public class Coins : MonoBehaviour
             coinManagerScriptableObj.noOfCoinsCollected++;
             AudioManager.instance.PlaySfx(coinSfxAudioClip);
             Debug.Log(coinManagerScriptableObj.noOfCoinsCollected);
+            coinManagerScriptableObj.updateCoin?.Invoke();
             Destroy(gameObject);
         }
     }

@@ -4,25 +4,21 @@ using UnityEngine;
 
 public class BallManager : MonoBehaviour
 {
+    
+    [SerializeField] private GameObject mainBall;
+    [SerializeField] private Rigidbody2D ballPrefab;
+    [SerializeField] private SwipeController swipeControler;
+    private int ballCounter;
     public List<Rigidbody2D> balls;
-    public Rigidbody2D ballPrefab;
-    public int size;
     public float ballForce;
-    public int ballCounter;
-    public SwipeController swipeControler;
-    public CubeObjectPool cubeObjectPool;
-    public GameObject mainBall;
-
+    
 
     private void OnEnable()
     {
+        // Subscribe Event which returns Vector 2 Direction
         swipeControler.Swipe += ThrowBall;
     }
-
-    private void Start()
-    {
-        //CreateBall(size);
-    }
+    
 
     public void CreateBall( int mainBallSize)
     {
@@ -41,7 +37,7 @@ public class BallManager : MonoBehaviour
 
     public IEnumerator MainThrowBall(Vector2 direciton)
     {
-        ballCounter = 0; // Reset
+        ballCounter = 0; // Counter Reset
         foreach (Rigidbody2D ball in balls)
         {
             ballCounter++;
@@ -57,10 +53,6 @@ public class BallManager : MonoBehaviour
         anotherBall.transform.position = mainBall.transform.position;
         anotherBall.gameObject.SetActive(false);
         ballCounter--;
-        if (ballCounter == 0)
-        {
-            cubeObjectPool.NextMove();
-        }
         Debug.Log(ballCounter);
     }
 
