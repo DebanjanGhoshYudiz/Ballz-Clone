@@ -44,7 +44,7 @@ public class BallManager : MonoBehaviour
             ball.gameObject.SetActive(true);
             ball.constraints = RigidbodyConstraints2D.None;
             ball.AddForce(direciton * ballForce, ForceMode2D.Force);
-            yield return new WaitForSeconds(0.6f);
+            yield return new WaitForSeconds(0.2f);
         }
     }
 

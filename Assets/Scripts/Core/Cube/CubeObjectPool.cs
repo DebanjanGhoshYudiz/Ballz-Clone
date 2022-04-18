@@ -47,6 +47,7 @@ public class CubeObjectPool : MonoBehaviour
 
     private void Start()
     {
+        _noOfRowSpawned = 0;
         CubeSpawner();
         _coinLineSpawned++;
         _extraBallLineSpawned++;
@@ -71,7 +72,6 @@ public class CubeObjectPool : MonoBehaviour
                     coinsList.Add(anotherPrefab);
                 }
                 GenerateRandomCoinLine();
-                _noOfRowSpawned++;
             }
         }
         else if (_extraBallLineSpawned == _randomExtraBallLineSpawned)
@@ -89,7 +89,6 @@ public class CubeObjectPool : MonoBehaviour
                     extraBallList.Add(anotherPrefab);
                 }
                 GenerateRandomExtraBallLine();
-                _noOfRowSpawned++;
             }
         }
         else
@@ -103,14 +102,13 @@ public class CubeObjectPool : MonoBehaviour
                     _prefab = Instantiate(cubePrefab, randomXPos, Quaternion.identity, cubeHolder);
                     _prefab.transform.position =
                         new Vector3(_prefab.transform.position.x + setXPos, _prefab.transform.position.y);
-                    _levelCubeNumber = Random.Range(1, 4) + _noOfRowSpawned;
+                    _levelCubeNumber = Random.Range(1, 3) + _noOfRowSpawned;
                     _prefab.UpdateCubeNumber(_levelCubeNumber);
                     cubesList.Add(_prefab);
                 }
                 GenerateRandomCoinLine();
-                _noOfRowSpawned++;
             }
-            
+            _noOfRowSpawned++;
         }
     }
 
