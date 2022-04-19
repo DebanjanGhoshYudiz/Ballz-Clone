@@ -11,38 +11,32 @@ public class SwipeController : MonoBehaviour
     private Vector3 _touchDirection;
     public float lenghtOfLineRenderer;
     public Action<Vector2> Swipe;
-    public bool isBallInAir = false;
-    
-    
+
+
     private void Update()
     {
-        if (!isBallInAir)
+        if (Input.GetMouseButtonDown(0))
         {
-            if (Input.GetMouseButtonDown(0))
-            {
-                // Tap Start
-                _touchStartPos = Input.mousePosition;
-                lineRenderer.enabled = true;
-                lineRenderer.SetPosition(0, mainBall.position);
-            }
-            else if (Input.GetMouseButton(0))
-            {
-                _touchEndPos = Input.mousePosition;
-                _touchDirection = _touchStartPos - _touchEndPos;
+            // Tap Start
+            _touchStartPos = Input.mousePosition;
+            lineRenderer.enabled = true;
+            lineRenderer.SetPosition(0, mainBall.position);
+        }
+        else if (Input.GetMouseButton(0))
+        {
+            _touchEndPos = Input.mousePosition;
+            _touchDirection = _touchStartPos - _touchEndPos;
 
-                lineRenderer.SetPosition(1, mainBall.position + (_touchDirection * lenghtOfLineRenderer));
-            }
+            lineRenderer.SetPosition(1, mainBall.position + (_touchDirection * lenghtOfLineRenderer));
+        }
 
-            else if (Input.GetMouseButtonUp(0))
-            {
-                // Tap End
-                _touchEndPos = Input.mousePosition;
-                _touchDirection = _touchStartPos - _touchEndPos;
-                lineRenderer.enabled = false;
-                isBallInAir = true;
-                Swipe?.Invoke(_touchDirection);
-            }
-
+        else if (Input.GetMouseButtonUp(0))
+        {
+            // Tap End
+            _touchEndPos = Input.mousePosition;
+            _touchDirection = _touchStartPos - _touchEndPos;
+            lineRenderer.enabled = false;
+            Swipe?.Invoke(_touchDirection);
         }
     }
     

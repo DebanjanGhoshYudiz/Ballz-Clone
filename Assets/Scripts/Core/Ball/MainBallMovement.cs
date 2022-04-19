@@ -33,7 +33,6 @@ public class MainBallMovement : MonoBehaviour
             mainBallRd2D.velocity = Vector2.zero;
             mainBallRd2D.constraints = RigidbodyConstraints2D.FreezeAll;
             spawnerScirpt.NextMove();
-            swipeControler.isBallInAir = false;
         }
     }
 
