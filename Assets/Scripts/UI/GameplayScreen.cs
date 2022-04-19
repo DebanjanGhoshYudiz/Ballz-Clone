@@ -17,11 +17,7 @@ public class GameplayScreen : MonoBehaviour
     {
         coinManager.updateCoin += UpdateCoin;
     }
-
-    private void Start()
-    {
-        gameplayCoinText.text = coinManager.noOfCoinsCollected.ToString();
-    }
+    
 
     public void OnClickPause()
     {
@@ -42,6 +38,8 @@ public class GameplayScreen : MonoBehaviour
 
     public void ShowScreen()
     {
+        gameplayCoinText.text = coinManager.noOfCoinsCollected.ToString();
+        gameplayScoreText.text = scoreManager.score.ToString();
         gameplayCanvas.enabled = true;
     }
 

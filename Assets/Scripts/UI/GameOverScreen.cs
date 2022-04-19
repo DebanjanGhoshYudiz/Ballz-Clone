@@ -6,10 +6,15 @@ using UnityEngine.UI;
 
 public class GameOverScreen : MonoBehaviour
 {
+    [SerializeField] private GameStateManager gameStateManager;
     [SerializeField] private Canvas gameOverCanvas;
     [SerializeField] private Text highScoreText;
     [SerializeField] private Text scoreText;
     [SerializeField] private ScoreManager scoreManager;
+    [SerializeField] private GameObject mainBall;
+    [SerializeField] private MainBallMovement mainBallMovementScript;
+    [SerializeField] private BallManager ballManager;
+    [SerializeField] private Spawner spawnerScript;
     
 
     public void ShowScreen()
@@ -19,6 +24,15 @@ public class GameOverScreen : MonoBehaviour
         scoreText.text = scoreManager.score.ToString();
     }
 
+    public void OnClickRestart()
+    {
+        gameStateManager.currentGameState = GameState.Gameplay;
+        gameStateManager.main?.Invoke();
+        mainBall.transform.position = mainBallMovementScript.mainBallPosition;
+        ballManager.RemoveBall();
+        spawnerScript.RemoveAllSpawns();
+        scoreManager.ScoreReset();
+    }
 
     public void OnClickMainMenu()
     {

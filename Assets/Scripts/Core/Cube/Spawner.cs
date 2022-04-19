@@ -3,29 +3,27 @@ using System.Net.Sockets;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class CubeObjectPool : MonoBehaviour
+public class Spawner : MonoBehaviour
 {
     [Header("Cube")]
     [SerializeField] private CubeScript cubePrefab;
     private int _noOfRowSpawned;
     private int _levelCubeNumber;
-    private CubeScript _prefab;
     public List<CubeScript> cubesList;
     
     
     [Header("Coin Pickup")]
-    [SerializeField] private Coins coinPrefab;
+    [SerializeField] private GameObject coinPrefab;
     private int _coinLineSpawned;
     private int _randomLineSpawned;
-    public List<Coins> coinsList;
+    public List<GameObject> pickupList;
     
     
     [Header("Extra ball Pickup")]
-    [SerializeField] private ExtraBall extraBallPrefab;
+    [SerializeField] private GameObject extraBallPrefab;
     private int _extraBallLineSpawned;
     private int _randomExtraBallLineSpawned;
-    public List<ExtraBall> extraBallList;
-    
+
     [Header("Spawn Related")]
     [SerializeField] private float setYPos;
     [SerializeField] private float setXPos;
@@ -48,48 +46,40 @@ public class CubeObjectPool : MonoBehaviour
     private void Start()
     {
         _noOfRowSpawned = 0;
-        CubeSpawner();
+        LineSpawner();
         _coinLineSpawned++;
         _extraBallLineSpawned++;
         GenerateRandomCoinLine();
         GenerateRandomExtraBallLine();
     }
 
-    public void CubeSpawner()
+    public void LineSpawner()
     {
         if (_coinLineSpawned == _randomLineSpawned)
         {
             _coinLineSpawned = 0;
-            _xSize = 1;
-            for (int x = 0; x < _xSize; x++)
+            if (Random.Range(0, 100) >= 10)
             {
-                if (Random.Range(0, 100) >= 10)
-                {
-                    Vector3 randomXPos = new Vector3(Random.Range(0,5), setYPos) * _cubeOffset;
-                    Coins anotherPrefab = Instantiate(coinPrefab, randomXPos, Quaternion.identity, cubeHolder);
-                    anotherPrefab.transform.position =
-                        new Vector3(anotherPrefab.transform.position.x + setXPos, anotherPrefab.transform.position.y);
-                    coinsList.Add(anotherPrefab);
-                }
-                GenerateRandomCoinLine();
+                Vector3 randomXPos = new Vector3(Random.Range(0,5), setYPos) * _cubeOffset;
+                GameObject anotherPrefab = Instantiate(coinPrefab, randomXPos, Quaternion.identity, cubeHolder);
+                anotherPrefab.transform.position =
+                    new Vector3(anotherPrefab.transform.position.x + setXPos, anotherPrefab.transform.position.y);
+                pickupList.Add(anotherPrefab);
             }
+            GenerateRandomCoinLine();
         }
         else if (_extraBallLineSpawned == _randomExtraBallLineSpawned)
         {
             _extraBallLineSpawned = 0;
-            _xSize = 1;
-            for (int x = 0; x < _xSize; x++)
+            if (Random.Range(0, 100) >= 10)
             {
-                if (Random.Range(0, 100) >= 10)
-                {
-                    Vector3 randomXPos = new Vector3(Random.Range(0, 5), setYPos) * _cubeOffset;
-                    ExtraBall anotherPrefab = Instantiate(extraBallPrefab, randomXPos, Quaternion.identity, cubeHolder);
-                    anotherPrefab.transform.position =
-                        new Vector3(anotherPrefab.transform.position.x + setXPos, anotherPrefab.transform.position.y);
-                    extraBallList.Add(anotherPrefab);
-                }
-                GenerateRandomExtraBallLine();
+                Vector3 randomXPos = new Vector3(Random.Range(0, 5), setYPos) * _cubeOffset;
+                GameObject anotherPrefab = Instantiate(extraBallPrefab, randomXPos, Quaternion.identity, cubeHolder);
+                anotherPrefab.transform.position =
+                    new Vector3(anotherPrefab.transform.position.x + setXPos, anotherPrefab.transform.position.y);
+                pickupList.Add(anotherPrefab);
             }
+            GenerateRandomExtraBallLine();
         }
         else
         {
@@ -99,12 +89,12 @@ public class CubeObjectPool : MonoBehaviour
                 if (Random.Range(0, 100) >= 50)
                 {
                     Vector3 randomXPos = new Vector3(x, setYPos) * _cubeOffset;
-                    _prefab = Instantiate(cubePrefab, randomXPos, Quaternion.identity, cubeHolder);
-                    _prefab.transform.position =
-                        new Vector3(_prefab.transform.position.x + setXPos, _prefab.transform.position.y);
+                    CubeScript prefab = Instantiate(cubePrefab, randomXPos, Quaternion.identity, cubeHolder);
+                    prefab.transform.position =
+                        new Vector3(prefab.transform.position.x + setXPos, prefab.transform.position.y);
                     _levelCubeNumber = Random.Range(1, 3) + _noOfRowSpawned;
-                    _prefab.UpdateCubeNumber(_levelCubeNumber);
-                    cubesList.Add(_prefab);
+                    prefab.UpdateCubeNumber(_levelCubeNumber);
+                    cubesList.Add(prefab);
                 }
                 GenerateRandomCoinLine();
             }
@@ -121,30 +111,18 @@ public class CubeObjectPool : MonoBehaviour
         for (int i = 0; i < cubesList.Count; i++)
         {
             if (cubesList[i] != null)
-            {
                 cubesList[i].transform.position -= new Vector3(0, -1.5f) * _cubeOffsetDown;
-                
-            }
         }
         
-        for (int i = 0; i < coinsList.Count; i++)
+        for (int i = 0; i < pickupList.Count; i++)
         {
-            if (coinsList[i] != null)
-            {
-                coinsList[i].transform.position -= new Vector3(0, -1.5f) * _cubeOffsetDown;
-            }
+            if (pickupList[i] != null)
+                pickupList[i].transform.position -= new Vector3(0, -1.5f) * _cubeOffsetDown;
         }
         
-        for (int i = 0; i < extraBallList.Count; i++)
-        {
-            if (extraBallList[i] != null)
-            {
-                extraBallList[i].transform.position -= new Vector3(0, -1.5f) * _cubeOffsetDown;
-            }
-        }
         AudioManager.instance.PlaySfx(nextLevelAudioClip);
         gameplayScreen.UpdateScore();
-        CubeSpawner();
+        LineSpawner();
         _coinLineSpawned++;
         _extraBallLineSpawned++;
     }
@@ -159,6 +137,29 @@ public class CubeObjectPool : MonoBehaviour
     {
         int randomLine = Random.Range(2, 5);
         _randomExtraBallLineSpawned = randomLine;
+    }
+
+    public void RemoveAllSpawns()
+    {
+        for (int i = 0; i < cubesList.Count; i++)
+        {
+            if (cubesList[i] != null)
+            {
+                Debug.Log("Cubes Destroy!");
+                Destroy(cubesList[i].gameObject);
+            }
+        }
+        cubesList.Clear();
+
+        for (int i = 0; i < pickupList.Count; i++)
+        {
+            if (pickupList[i] != null)
+            {
+                Destroy(pickupList[i]);
+            }
+        }
+        pickupList.Clear();
+        LineSpawner();
     }
     
 }

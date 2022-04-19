@@ -8,9 +8,10 @@ public class BallManager : MonoBehaviour
     [SerializeField] private GameObject mainBall;
     [SerializeField] private Rigidbody2D ballPrefab;
     [SerializeField] private SwipeController swipeControler;
-    private int ballCounter;
-    public List<Rigidbody2D> balls;
+    public int ballCounter;
     public float ballForce;
+    public List<Rigidbody2D> balls;
+    
     
 
     private void OnEnable()
@@ -22,6 +23,7 @@ public class BallManager : MonoBehaviour
 
     public void CreateBall( int mainBallSize)
     {
+        // Create ball when Extra ball pickup is taken by the Player.
         for (int i = 0; i < mainBallSize; i++)
         {
             Rigidbody2D prefab = Instantiate(ballPrefab, transform);
@@ -38,12 +40,12 @@ public class BallManager : MonoBehaviour
     public IEnumerator MainThrowBall(Vector2 direciton)
     {
         ballCounter = 0; // Counter Reset
-        foreach (Rigidbody2D ball in balls)
+        for (int ball = 0; ball < balls.Count; ball++)
         {
             ballCounter++;
-            ball.gameObject.SetActive(true);
-            ball.constraints = RigidbodyConstraints2D.None;
-            ball.AddForce(direciton * ballForce, ForceMode2D.Force);
+            balls[ball].gameObject.SetActive(true);
+            balls[ball].constraints = RigidbodyConstraints2D.None;
+            balls[ball].AddForce(direciton * ballForce, ForceMode2D.Force);
             yield return new WaitForSeconds(0.2f);
         }
     }
@@ -54,6 +56,18 @@ public class BallManager : MonoBehaviour
         anotherBall.gameObject.SetActive(false);
         ballCounter--;
         Debug.Log(ballCounter);
+    }
+
+    public void RemoveBall()
+    {
+        for (int ball = 0; ball < balls.Count; ball++)
+        {
+            if (balls[ball] != null)
+            {
+                Destroy(balls[ball].gameObject);
+            }
+        }
+        balls.Clear();
     }
 
     private void OnDisable()

@@ -1,16 +1,23 @@
+using System;
 using UnityEngine;
 
 public class MainBallMovement : MonoBehaviour
 {
     [SerializeField] private SwipeController swipeControler;
     [SerializeField] private Rigidbody2D mainBallRd2D;
-    [SerializeField] private CubeObjectPool cubeObjectPool;
+    [SerializeField] private Spawner spawnerScirpt;
     private bool _firstCollisionDone = true;
     public float ballForce;
+    public Vector2 mainBallPosition;
 
     private void OnEnable()
     {
         swipeControler.Swipe += MainThrowBall;
+    }
+
+    private void Start()
+    {
+        mainBallPosition = transform.position;
     }
 
     public void MainThrowBall(Vector2 direction)
@@ -33,7 +40,7 @@ public class MainBallMovement : MonoBehaviour
                 Debug.Log("Second time and So on Collision!");
                 mainBallRd2D.velocity = Vector2.zero;
                 mainBallRd2D.constraints = RigidbodyConstraints2D.FreezeAll;
-                cubeObjectPool.NextMove();
+                spawnerScirpt.NextMove();
             }
         }
     }

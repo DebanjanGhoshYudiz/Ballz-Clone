@@ -18,7 +18,6 @@ public class SwipeController : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             // Tap Start
-            Debug.Log(Input.mousePosition);
             _touchStartPos = Input.mousePosition;
             lineRenderer.enabled = true;
             lineRenderer.SetPosition(0, mainBall.position);
@@ -26,7 +25,6 @@ public class SwipeController : MonoBehaviour
         else if (Input.GetMouseButton(0))
         {
             // Moved
-            Debug.Log(Input.mousePosition);
             _touchEndPos = Input.mousePosition;
             _touchDirection = _touchStartPos - _touchEndPos;
             lineRenderer.SetPosition(1, mainBall.position + (_touchDirection * lenghtOfLineRenderer));
@@ -35,7 +33,6 @@ public class SwipeController : MonoBehaviour
         else if (Input.GetMouseButtonUp(0))
         {
             // Tap End
-            Debug.Log(Input.mousePosition);
             _touchEndPos = Input.mousePosition;
             _touchDirection = _touchStartPos - _touchEndPos;
             lineRenderer.enabled = false;

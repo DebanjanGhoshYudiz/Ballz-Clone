@@ -1,7 +1,7 @@
 using UnityEngine;
 
 public class GameOver : MonoBehaviour
-{ 
+{
     [SerializeField] private GameStateManager gameStateManager;
     [SerializeField] private CoinManager coinManager;
     [SerializeField] private ScoreManager scoreManager;
