@@ -6,10 +6,12 @@ public class PauseScreen : MonoBehaviour
 {
     [Header("Script Reference")]
     [SerializeField] private GameStateManager gameStateManager;
+    [SerializeField] private GameplayScreen gameplayScreen;
+    [SerializeField] private MainBallMovement mainBallMovement;
     
     [Header("UI")]
     [SerializeField] private Canvas pausedCanvas;
-    
+
     [Header("Audio")]
     public bool sfxIsPlaying = true;
     public Image sfxBtn;
@@ -26,6 +28,8 @@ public class PauseScreen : MonoBehaviour
     {
         gameStateManager.currentGameState = GameState.Gameplay;
         gameStateManager.main?.Invoke();
+        mainBallMovement.mainBallRd2D.constraints = RigidbodyConstraints2D.None;
+        mainBallMovement.mainBallRd2D.velocity = gameplayScreen.storeVelocity;
     }
 
     public void OnClickMainMenu()

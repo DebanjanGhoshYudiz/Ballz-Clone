@@ -30,7 +30,7 @@ public class GameOverScreen : MonoBehaviour
         gameStateManager.main?.Invoke();
         mainBall.transform.position = mainBallMovementScript.mainBallPosition;
         ballManager.RemoveBall();
-        spawnerScript.RemoveAllSpawns();
+        spawnerScript.GameResetSpawn();
         scoreManager.ScoreReset();
     }
 

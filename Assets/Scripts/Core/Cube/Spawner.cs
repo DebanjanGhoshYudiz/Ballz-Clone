@@ -14,7 +14,7 @@ public class Spawner : MonoBehaviour
     
     [Header("Coin Pickup")]
     [SerializeField] private GameObject coinPrefab;
-    private int _coinLineSpawned;
+    private int _coinLineSpawned = 0;
     private int _randomLineSpawned;
     public List<GameObject> pickupList;
     
@@ -46,11 +46,11 @@ public class Spawner : MonoBehaviour
     private void Start()
     {
         _noOfRowSpawned = 0;
+        GenerateRandomCoinLine();
+        GenerateRandomExtraBallLine();
         LineSpawner();
         _coinLineSpawned++;
         _extraBallLineSpawned++;
-        GenerateRandomCoinLine();
-        GenerateRandomExtraBallLine();
     }
 
     public void LineSpawner()
@@ -139,7 +139,7 @@ public class Spawner : MonoBehaviour
         _randomExtraBallLineSpawned = randomLine;
     }
 
-    public void RemoveAllSpawns()
+    public void GameResetSpawn()
     {
         for (int i = 0; i < cubesList.Count; i++)
         {
@@ -159,7 +159,13 @@ public class Spawner : MonoBehaviour
             }
         }
         pickupList.Clear();
+        _noOfRowSpawned = 0;
+        _coinLineSpawned = 0;
+        GenerateRandomCoinLine();
+        GenerateRandomExtraBallLine();
         LineSpawner();
+        _coinLineSpawned++;
+        _extraBallLineSpawned++;
     }
     
 }

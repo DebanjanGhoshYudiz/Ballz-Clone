@@ -3,10 +3,9 @@ using UnityEngine;
 
 public class MainBallMovement : MonoBehaviour
 {
-    [SerializeField] private SwipeController swipeControler;
-    [SerializeField] private Rigidbody2D mainBallRd2D;
+    [SerializeField] private SwipeController swipeControler; 
     [SerializeField] private Spawner spawnerScirpt;
-    private bool _firstCollisionDone = true;
+    public Rigidbody2D mainBallRd2D;
     public float ballForce;
     public Vector2 mainBallPosition;
 
@@ -30,18 +29,11 @@ public class MainBallMovement : MonoBehaviour
     {
         if (col.gameObject.CompareTag("LowerWall"))
         {
-            if (_firstCollisionDone)
-            {
-                Debug.Log("First time collision!");
-                _firstCollisionDone = false;
-            }
-            else if (!_firstCollisionDone)
-            {
-                Debug.Log("Second time and So on Collision!");
-                mainBallRd2D.velocity = Vector2.zero;
-                mainBallRd2D.constraints = RigidbodyConstraints2D.FreezeAll;
-                spawnerScirpt.NextMove();
-            }
+            Debug.Log("Second time and So on Collision!");
+            mainBallRd2D.velocity = Vector2.zero;
+            mainBallRd2D.constraints = RigidbodyConstraints2D.FreezeAll;
+            spawnerScirpt.NextMove();
+            swipeControler.isBallInAir = false;
         }
     }
 

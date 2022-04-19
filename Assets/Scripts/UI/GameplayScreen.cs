@@ -7,11 +7,14 @@ public class GameplayScreen : MonoBehaviour
     [SerializeField] private GameStateManager gameStateManager;
     [SerializeField] private CoinManager coinManager;
     [SerializeField] private ScoreManager scoreManager;
+    [SerializeField] private MainBallMovement mainBall;
+    public Vector2 storeVelocity;
     
     [Header("UI")]
     [SerializeField] private Canvas gameplayCanvas;
     [SerializeField] private Text gameplayCoinText;
     [SerializeField] private Text gameplayScoreText;
+    
 
     private void OnEnable()
     {
@@ -21,6 +24,8 @@ public class GameplayScreen : MonoBehaviour
 
     public void OnClickPause()
     {
+        storeVelocity = mainBall.mainBallRd2D.velocity;
+        mainBall.mainBallRd2D.constraints = RigidbodyConstraints2D.FreezeAll;
         gameStateManager.currentGameState = GameState.Pause;
         gameStateManager.main?.Invoke();
     }
