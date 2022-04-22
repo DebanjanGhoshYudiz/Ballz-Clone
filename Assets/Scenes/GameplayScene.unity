@@ -178,6 +178,7 @@ MonoBehaviour:
   _cubeOffsetDown: -0.5
   scoreManager: {fileID: 11400000, guid: 025d7f86d99b8b5418c2e23fd31f985a, type: 2}
   gameplayScreen: {fileID: 447782196}
+  swipeController: {fileID: 0}
   nextLevelAudioClip: {fileID: 8300000, guid: e0ca79a35362a9346a1114f74b74a802, type: 3}
 --- !u!1 &18038285
 GameObject:
@@ -1332,6 +1333,7 @@ MonoBehaviour:
   coinManager: {fileID: 11400000, guid: 46cf8f80db745435d926cd4fa7af0fb3, type: 2}
   scoreManager: {fileID: 11400000, guid: 025d7f86d99b8b5418c2e23fd31f985a, type: 2}
   mainBall: {fileID: 7682066495767975282}
+  swipeController: {fileID: 1941190830}
   storeVelocity: {x: 0, y: 0}
   gameplayCanvas: {fileID: 447782195}
   gameplayCoinText: {fileID: 1928710047}
@@ -1457,6 +1459,7 @@ MonoBehaviour:
   sfxBtn: {fileID: 224847349}
   sfxOn: {fileID: 21300000, guid: 76d8d50bee7054ac78ad4843911e44d0, type: 3}
   sfxOff: {fileID: 21300000, guid: df7ee8f05acd74ae3a6b306aff32cf4c, type: 3}
+  swipeController: {fileID: 1941190830}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -2302,6 +2305,7 @@ MonoBehaviour:
   gameStateManager: {fileID: 24425719}
   coinManager: {fileID: 11400000, guid: 46cf8f80db745435d926cd4fa7af0fb3, type: 2}
   scoreManager: {fileID: 11400000, guid: 025d7f86d99b8b5418c2e23fd31f985a, type: 2}
+  swipeController: {fileID: 1941190830}
 --- !u!1 &918908235
 GameObject:
   m_ObjectHideFlags: 0
@@ -2622,6 +2626,7 @@ MonoBehaviour:
   mainBallMovementScript: {fileID: 7682066495767975282}
   ballManager: {fileID: 1515219354}
   spawnerScript: {fileID: 15626607}
+  swipeController: {fileID: 1941190830}
 --- !u!114 &1096142742
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3899,6 +3904,7 @@ MonoBehaviour:
   gameStateManager: {fileID: 24425719}
   gameplayScreen: {fileID: 447782196}
   mainBallMovement: {fileID: 7682066495767975282}
+  swipeController: {fileID: 1941190830}
   pausedCanvas: {fileID: 1882636504}
   sfxIsPlaying: 1
   sfxBtn: {fileID: 743329513}
@@ -4439,6 +4445,7 @@ MonoBehaviour:
   lineRenderer: {fileID: 7682066495767975283}
   mainBall: {fileID: 7682066495767975286}
   lenghtOfLineRenderer: 0.006
+  isGamingRunning: 0
 --- !u!4 &1941190831
 Transform:
   m_ObjectHideFlags: 0
@@ -4725,10 +4732,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b26dc4568cb5cb42b72a51ec636056b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  swipeControler: {fileID: 1941190830}
+  swipeController: {fileID: 1941190830}
   spawnerScirpt: {fileID: 15626607}
   mainBallRd2D: {fileID: 7682066495767975285}
-  ballForce: 3
+  ballForce: 15
   mainBallPosition: {x: 0, y: 0}
 --- !u!120 &7682066495767975283
 LineRenderer:

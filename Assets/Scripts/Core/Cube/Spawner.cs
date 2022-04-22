@@ -35,6 +35,7 @@ public class Spawner : MonoBehaviour
     [Header("Script Reference")]
     [SerializeField] private ScoreManager scoreManager;
     [SerializeField] private GameplayScreen gameplayScreen;
+    [SerializeField] private SwipeController swipeController;
     
     
     [Header("AudioClip")]

@@ -8,6 +8,7 @@ public class GameplayScreen : MonoBehaviour
     [SerializeField] private CoinManager coinManager;
     [SerializeField] private ScoreManager scoreManager;
     [SerializeField] private MainBallMovement mainBall;
+    [SerializeField] private SwipeController swipeController; 
     public Vector2 storeVelocity;
     
     [Header("UI")]
@@ -24,6 +25,7 @@ public class GameplayScreen : MonoBehaviour
 
     public void OnClickPause()
     {
+        swipeController.enabled = false;
         storeVelocity = mainBall.mainBallRd2D.velocity;
         mainBall.mainBallRd2D.constraints = RigidbodyConstraints2D.FreezeAll;
         gameStateManager.currentGameState = GameState.Pause;
@@ -46,6 +48,7 @@ public class GameplayScreen : MonoBehaviour
         gameplayCoinText.text = coinManager.noOfCoinsCollected.ToString();
         gameplayScoreText.text = scoreManager.score.ToString();
         gameplayCanvas.enabled = true;
+        swipeController.enabled = true;
     }
 
     public void HideScreens()

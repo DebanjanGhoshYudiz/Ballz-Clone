@@ -15,6 +15,7 @@ public class GameOverScreen : MonoBehaviour
     [SerializeField] private MainBallMovement mainBallMovementScript;
     [SerializeField] private BallManager ballManager;
     [SerializeField] private Spawner spawnerScript;
+    [SerializeField] private SwipeController swipeController;
     
 
     public void ShowScreen()
@@ -32,6 +33,7 @@ public class GameOverScreen : MonoBehaviour
         ballManager.RemoveBall();
         spawnerScript.GameResetSpawn();
         scoreManager.ScoreReset();
+        swipeController.enabled = true;
     }
 
     public void OnClickMainMenu()

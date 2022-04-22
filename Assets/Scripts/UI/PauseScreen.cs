@@ -8,6 +8,7 @@ public class PauseScreen : MonoBehaviour
     [SerializeField] private GameStateManager gameStateManager;
     [SerializeField] private GameplayScreen gameplayScreen;
     [SerializeField] private MainBallMovement mainBallMovement;
+    [SerializeField] private SwipeController swipeController;
     
     [Header("UI")]
     [SerializeField] private Canvas pausedCanvas;
@@ -30,6 +31,7 @@ public class PauseScreen : MonoBehaviour
         gameStateManager.main?.Invoke();
         mainBallMovement.mainBallRd2D.constraints = RigidbodyConstraints2D.None;
         mainBallMovement.mainBallRd2D.velocity = gameplayScreen.storeVelocity;
+        swipeController.enabled = true;
     }
 
     public void OnClickMainMenu()
