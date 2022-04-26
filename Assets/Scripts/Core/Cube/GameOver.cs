@@ -12,7 +12,7 @@ public class GameOver : MonoBehaviour
             Debug.Log("GameOver!");
             gameStateManager.currentGameState = GameState.GameOver;
             gameStateManager.main?.Invoke();
-            gameEvents.OnGameOver?.Invoke();
+            gameEvents.GameOverContent();
         }
     }
 }

@@ -10,6 +10,8 @@ public class GameplayScreen : MonoBehaviour
     [SerializeField] private ScoreManager scoreManager;
     [SerializeField] private SwipeController swipeController;
     [SerializeField] private GameEvents gameEvents;
+    [SerializeField] private GameRestart gameRestart;
+    [SerializeField] private BallManager ballManager;
 
     [Header("UI")]
     [SerializeField] private Canvas gameplayCanvas;
@@ -20,6 +22,8 @@ public class GameplayScreen : MonoBehaviour
     private void OnEnable()
     {
         coinManager.updateCoin += UpdateCoin;
+        gameEvents.GameOverReset += OnRestart;
+        gameEvents.OnResume += PauseOnResume;
     }
     
 
@@ -27,7 +31,7 @@ public class GameplayScreen : MonoBehaviour
     {
         gameStateManager.currentGameState = GameState.Pause;
         gameStateManager.main?.Invoke();
-        gameEvents.OnGameplayPause?.Invoke();
+        gameEvents.GameplayPause();
     }
 
     public void UpdateScore()
@@ -53,9 +57,23 @@ public class GameplayScreen : MonoBehaviour
     {
         gameplayCanvas.enabled = false;
     }
+
+    public void OnRestart()
+    {
+        gameRestart.OnGameRestart();
+    }
+
+    public void PauseOnResume()
+    {
+        ballManager.UnFreezeBalls();
+        ballManager.GiveVelocity();
+        swipeController.enabled = true;
+    }
     
     private void OnDisable()
     {
         coinManager.updateCoin -= UpdateCoin;
+        gameEvents.GameOverReset -= OnRestart;
+        gameEvents.OnResume -= PauseOnResume;
     }
 }

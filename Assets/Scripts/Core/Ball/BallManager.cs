@@ -11,8 +11,9 @@ public class BallManager : MonoBehaviour
     [SerializeField] private Rigidbody2D ballPrefab;
     [SerializeField] private SwipeController swipeControler;
     [SerializeField] private Spawner spawnerScript;
-    [SerializeField] private GameEvents gameEvents;
+    [SerializeField] private PauseScreen pauseScreen;
     public int ballCounter;
+    private Rigidbody2D tmpBallRb2D;
     public float ballForce;
     public Vector2 mainBallPosition;
     public List<Rigidbody2D> balls;
@@ -93,14 +94,19 @@ public class BallManager : MonoBehaviour
 
     public void RemoveBall()
     {
-        for (int ball = 1; ball < balls.Count; ball++)
+        for (int index = 0; index < balls.Count; index++)
         {
-            if (balls[ball] != balls[0])
+            if (index >= 1)
             {
-                Destroy(balls[ball].gameObject);
-                balls.Remove(balls[ball]);
+                Destroy(balls[index].gameObject);
+            }
+            else if (index == 0)
+            {
+                tmpBallRb2D = balls[0];
             }
         }
+        balls.Clear();
+        balls.Add(tmpBallRb2D);
     }
 
     public void FreezeBalls()
@@ -129,7 +135,7 @@ public class BallManager : MonoBehaviour
     {
         for (int index = 0; index < balls.Count; index++)
         {
-            balls[index].velocity = gameEvents.storeVelocity;
+            balls[index].velocity = pauseScreen.storeVelocity;
         }
     }
 

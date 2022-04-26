@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -12,20 +11,29 @@ public class GameOverScreen : MonoBehaviour
     [SerializeField] private Text scoreText;
     [SerializeField] private ScoreManager scoreManager;
     [SerializeField] private GameEvents gameEvents;
-    
+    [SerializeField] private SwipeController swipeController;
+    [SerializeField] private CoinManager coinManager;
+    [SerializeField] private BallManager ballManager;
+
+
+    private void OnEnable()
+    {
+        gameEvents.OnGameOver += OnGameOver;
+    }
 
     public void ShowScreen()
     {
         gameOverCanvas.enabled = true;
         highScoreText.text = scoreManager.highScore.ToString();
         scoreText.text = scoreManager.score.ToString();
+        
     }
 
     public void OnClickRestart()
     {
         gameStateManager.currentGameState = GameState.Gameplay;
         gameStateManager.main?.Invoke();
-        gameEvents.GameOverReset?.Invoke();
+        gameEvents.GameOverResetContent();
     }
 
     public void OnClickMainMenu()
@@ -39,8 +47,21 @@ public class GameOverScreen : MonoBehaviour
         Application.Quit();
     }
 
+    public void OnGameOver()
+    {
+        swipeController.enabled = false;
+        coinManager.SetCoins();
+        scoreManager.CheckHighscore();
+        ballManager.FreezeBalls();
+    }
+
     public void HideScreens()
     {
         gameOverCanvas.enabled = false;
+    }
+
+    private void OnDisable()
+    {
+        gameEvents.OnGameOver -= OnGameOver;
     }
 }
