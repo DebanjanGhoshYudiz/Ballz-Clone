@@ -11,7 +11,7 @@ public class BallManager : MonoBehaviour
     [SerializeField] private Rigidbody2D ballPrefab;
     [SerializeField] private SwipeController swipeControler;
     [SerializeField] private Spawner spawnerScript;
-    [SerializeField] private GameplayScreen gameplayScreen;
+    [SerializeField] private GameEvents gameEvents;
     public int ballCounter;
     public float ballForce;
     public Vector2 mainBallPosition;
@@ -39,7 +39,7 @@ public class BallManager : MonoBehaviour
         {
             Rigidbody2D prefab = Instantiate(ballPrefab, transform);
             prefab.gameObject.SetActive(false);
-            prefab.transform.position = mainBall.transform.position;
+            prefab.transform.position = mainBallPosition;
             balls.Add(prefab);
         }
     }
@@ -93,7 +93,7 @@ public class BallManager : MonoBehaviour
 
     public void RemoveBall()
     {
-        for (int ball = 0; ball < balls.Count; ball++)
+        for (int ball = 1; ball < balls.Count; ball++)
         {
             if (balls[ball] != balls[0])
             {
@@ -129,7 +129,7 @@ public class BallManager : MonoBehaviour
     {
         for (int index = 0; index < balls.Count; index++)
         {
-            balls[index].velocity = gameplayScreen.storeVelocity;
+            balls[index].velocity = gameEvents.storeVelocity;
         }
     }
 

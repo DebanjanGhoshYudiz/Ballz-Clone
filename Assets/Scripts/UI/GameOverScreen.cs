@@ -11,10 +11,6 @@ public class GameOverScreen : MonoBehaviour
     [SerializeField] private Text highScoreText;
     [SerializeField] private Text scoreText;
     [SerializeField] private ScoreManager scoreManager;
-    [SerializeField] private GameObject mainBall;
-    [SerializeField] private BallManager ballManager;
-    [SerializeField] private Spawner spawnerScript;
-    [SerializeField] private SwipeController swipeController;
     [SerializeField] private GameEvents gameEvents;
     
 

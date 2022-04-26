@@ -7,6 +7,8 @@ TagManager:
   - LowerWall
   - BounceWall
   - cube
+  - ExtraBall
+  - Coin
   layers:
   - Default
   - TransparentFX

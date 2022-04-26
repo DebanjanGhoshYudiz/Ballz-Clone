@@ -170,8 +170,10 @@ MonoBehaviour:
   spawnerScript: {fileID: 15626607}
   scoreManager: {fileID: 11400000, guid: 025d7f86d99b8b5418c2e23fd31f985a, type: 2}
   swipeController: {fileID: 1941190830}
-  mainBall: {fileID: 7682066495767975281}
   coinManager: {fileID: 11400000, guid: 46cf8f80db745435d926cd4fa7af0fb3, type: 2}
+  mainBallRb2D: {fileID: 7682066495767975285}
+  mainBall: {fileID: 7682066495767975281}
+  storeVelocity: {x: 0, y: 0}
 --- !u!1 &15626605
 GameObject:
   m_ObjectHideFlags: 0
@@ -1381,10 +1383,8 @@ MonoBehaviour:
   gameStateManager: {fileID: 24425719}
   coinManager: {fileID: 11400000, guid: 46cf8f80db745435d926cd4fa7af0fb3, type: 2}
   scoreManager: {fileID: 11400000, guid: 025d7f86d99b8b5418c2e23fd31f985a, type: 2}
-  mainBallRb2D: {fileID: 7682066495767975285}
   swipeController: {fileID: 1941190830}
-  ballManager: {fileID: 1515219354}
-  storeVelocity: {x: 0, y: 0}
+  gameEvents: {fileID: 3331616}
   gameplayCanvas: {fileID: 447782195}
   gameplayCoinText: {fileID: 1928710047}
   gameplayScoreText: {fileID: 420432261}
@@ -2670,10 +2670,6 @@ MonoBehaviour:
   highScoreText: {fileID: 266235266}
   scoreText: {fileID: 682040498}
   scoreManager: {fileID: 11400000, guid: 025d7f86d99b8b5418c2e23fd31f985a, type: 2}
-  mainBall: {fileID: 7682066495767975281}
-  ballManager: {fileID: 1515219354}
-  spawnerScript: {fileID: 15626607}
-  swipeController: {fileID: 1941190830}
   gameEvents: {fileID: 3331616}
 --- !u!114 &1096142742
 MonoBehaviour:
@@ -3169,7 +3165,7 @@ MonoBehaviour:
   ballPrefab: {fileID: 7682066495767975285}
   swipeControler: {fileID: 1941190830}
   spawnerScript: {fileID: 15626607}
-  gameplayScreen: {fileID: 447782196}
+  gameEvents: {fileID: 0}
   ballCounter: 0
   ballForce: 10
   mainBallPosition: {x: 0, y: 0}

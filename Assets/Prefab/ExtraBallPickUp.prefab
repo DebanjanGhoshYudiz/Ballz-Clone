@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 1036300398221280372}
   m_Layer: 0
   m_Name: ExtraBallPickUp
-  m_TagString: Untagged
+  m_TagString: ExtraBall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
