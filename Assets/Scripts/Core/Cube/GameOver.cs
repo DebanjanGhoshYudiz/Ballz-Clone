@@ -3,9 +3,7 @@ using UnityEngine;
 public class GameOver : MonoBehaviour
 {
     [SerializeField] private GameStateManager gameStateManager;
-    [SerializeField] private CoinManager coinManager;
-    [SerializeField] private ScoreManager scoreManager;
-    [SerializeField] private SwipeController swipeController;
+    [SerializeField] private GameEvents gameEvents;
 
     private void OnTriggerEnter2D(Collider2D col)
     {
@@ -14,9 +12,7 @@ public class GameOver : MonoBehaviour
             Debug.Log("GameOver!");
             gameStateManager.currentGameState = GameState.GameOver;
             gameStateManager.main?.Invoke();
-            swipeController.enabled = false;
-            coinManager.SetCoins();
-            scoreManager.CheckHighscore();
+            gameEvents.OnGameOver?.Invoke();
         }
     }
 }

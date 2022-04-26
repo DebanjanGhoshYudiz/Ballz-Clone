@@ -1,4 +1,4 @@
-using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,8 +7,9 @@ public class GameplayScreen : MonoBehaviour
     [SerializeField] private GameStateManager gameStateManager;
     [SerializeField] private CoinManager coinManager;
     [SerializeField] private ScoreManager scoreManager;
-    [SerializeField] private MainBallMovement mainBall;
-    [SerializeField] private SwipeController swipeController; 
+    [SerializeField] private Rigidbody2D mainBallRb2D;
+    [SerializeField] private SwipeController swipeController;
+    [SerializeField] private BallManager ballManager;
     public Vector2 storeVelocity;
     
     [Header("UI")]
@@ -26,8 +27,8 @@ public class GameplayScreen : MonoBehaviour
     public void OnClickPause()
     {
         swipeController.enabled = false;
-        storeVelocity = mainBall.mainBallRd2D.velocity;
-        mainBall.mainBallRd2D.constraints = RigidbodyConstraints2D.FreezeAll;
+        storeVelocity = mainBallRb2D.velocity;
+        ballManager.FreezeBalls();
         gameStateManager.currentGameState = GameState.Pause;
         gameStateManager.main?.Invoke();
     }
@@ -55,7 +56,7 @@ public class GameplayScreen : MonoBehaviour
     {
         gameplayCanvas.enabled = false;
     }
-
+    
     private void OnDisable()
     {
         coinManager.updateCoin -= UpdateCoin;

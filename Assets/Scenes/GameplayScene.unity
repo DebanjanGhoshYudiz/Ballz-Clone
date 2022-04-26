@@ -123,6 +123,55 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &3331614
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3331615}
+  - component: {fileID: 3331616}
+  m_Layer: 0
+  m_Name: GameEvents
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3331615
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3331614}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.69949883, y: -0.08627022, z: 0.12522443}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 10
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3331616
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3331614}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf084a304aaa0465db376ae5b0b62116, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ballManager: {fileID: 1515219354}
+  spawnerScript: {fileID: 15626607}
+  scoreManager: {fileID: 11400000, guid: 025d7f86d99b8b5418c2e23fd31f985a, type: 2}
+  swipeController: {fileID: 1941190830}
+  mainBall: {fileID: 7682066495767975281}
+  coinManager: {fileID: 11400000, guid: 46cf8f80db745435d926cd4fa7af0fb3, type: 2}
 --- !u!1 &15626605
 GameObject:
   m_ObjectHideFlags: 0
@@ -1332,8 +1381,9 @@ MonoBehaviour:
   gameStateManager: {fileID: 24425719}
   coinManager: {fileID: 11400000, guid: 46cf8f80db745435d926cd4fa7af0fb3, type: 2}
   scoreManager: {fileID: 11400000, guid: 025d7f86d99b8b5418c2e23fd31f985a, type: 2}
-  mainBall: {fileID: 7682066495767975282}
+  mainBallRb2D: {fileID: 7682066495767975285}
   swipeController: {fileID: 1941190830}
+  ballManager: {fileID: 1515219354}
   storeVelocity: {x: 0, y: 0}
   gameplayCanvas: {fileID: 447782195}
   gameplayCoinText: {fileID: 1928710047}
@@ -2303,9 +2353,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameStateManager: {fileID: 24425719}
-  coinManager: {fileID: 11400000, guid: 46cf8f80db745435d926cd4fa7af0fb3, type: 2}
-  scoreManager: {fileID: 11400000, guid: 025d7f86d99b8b5418c2e23fd31f985a, type: 2}
-  swipeController: {fileID: 1941190830}
+  gameEvents: {fileID: 3331616}
 --- !u!1 &918908235
 GameObject:
   m_ObjectHideFlags: 0
@@ -2623,10 +2671,10 @@ MonoBehaviour:
   scoreText: {fileID: 682040498}
   scoreManager: {fileID: 11400000, guid: 025d7f86d99b8b5418c2e23fd31f985a, type: 2}
   mainBall: {fileID: 7682066495767975281}
-  mainBallMovementScript: {fileID: 7682066495767975282}
   ballManager: {fileID: 1515219354}
   spawnerScript: {fileID: 15626607}
   swipeController: {fileID: 1941190830}
+  gameEvents: {fileID: 3331616}
 --- !u!114 &1096142742
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3118,11 +3166,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mainBall: {fileID: 7682066495767975281}
-  ballPrefab: {fileID: 7697268294896083311, guid: c9a14ae23427e43cd9138cdd86404c50, type: 3}
+  ballPrefab: {fileID: 7682066495767975285}
   swipeControler: {fileID: 1941190830}
+  spawnerScript: {fileID: 15626607}
+  gameplayScreen: {fileID: 447782196}
   ballCounter: 0
-  ballForce: 2
-  balls: []
+  ballForce: 10
+  mainBallPosition: {x: 0, y: 0}
+  balls:
+  - {fileID: 7682066495767975285}
+  isGameRunning: 0
 --- !u!1 &1542972839
 GameObject:
   m_ObjectHideFlags: 0
@@ -3902,9 +3955,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameStateManager: {fileID: 24425719}
-  gameplayScreen: {fileID: 447782196}
-  mainBallMovement: {fileID: 7682066495767975282}
-  swipeController: {fileID: 1941190830}
+  gameEvents: {fileID: 3331616}
   pausedCanvas: {fileID: 1882636504}
   sfxIsPlaying: 1
   sfxBtn: {fileID: 743329513}
@@ -4445,7 +4496,6 @@ MonoBehaviour:
   lineRenderer: {fileID: 7682066495767975283}
   mainBall: {fileID: 7682066495767975286}
   lenghtOfLineRenderer: 0.006
-  isGamingRunning: 0
 --- !u!4 &1941190831
 Transform:
   m_ObjectHideFlags: 0
@@ -4711,8 +4761,8 @@ GameObject:
   - component: {fileID: 7682066495767975287}
   - component: {fileID: 7682066495767975285}
   - component: {fileID: 7682066495767975284}
-  - component: {fileID: 7682066495767975282}
   - component: {fileID: 7682066495767975283}
+  - component: {fileID: 7682066495767975282}
   m_Layer: 6
   m_Name: Ball
   m_TagString: Player
@@ -4729,14 +4779,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 7682066495767975281}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0b26dc4568cb5cb42b72a51ec636056b, type: 3}
+  m_Script: {fileID: 11500000, guid: 8592e02b80aac496cb9adb3e0c240f8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  swipeController: {fileID: 1941190830}
-  spawnerScirpt: {fileID: 15626607}
-  mainBallRd2D: {fileID: 7682066495767975285}
-  ballForce: 15
-  mainBallPosition: {x: 0, y: 0}
+  rb2D: {fileID: 7682066495767975285}
 --- !u!120 &7682066495767975283
 LineRenderer:
   m_ObjectHideFlags: 0

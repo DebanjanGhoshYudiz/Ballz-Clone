@@ -6,10 +6,8 @@ public class PauseScreen : MonoBehaviour
 {
     [Header("Script Reference")]
     [SerializeField] private GameStateManager gameStateManager;
-    [SerializeField] private GameplayScreen gameplayScreen;
-    [SerializeField] private MainBallMovement mainBallMovement;
-    [SerializeField] private SwipeController swipeController;
-    
+    [SerializeField] private GameEvents gameEvents;
+
     [Header("UI")]
     [SerializeField] private Canvas pausedCanvas;
 
@@ -29,9 +27,7 @@ public class PauseScreen : MonoBehaviour
     {
         gameStateManager.currentGameState = GameState.Gameplay;
         gameStateManager.main?.Invoke();
-        mainBallMovement.mainBallRd2D.constraints = RigidbodyConstraints2D.None;
-        mainBallMovement.mainBallRd2D.velocity = gameplayScreen.storeVelocity;
-        swipeController.enabled = true;
+        gameEvents.OnResume?.Invoke();
     }
 
     public void OnClickMainMenu()
@@ -57,6 +53,8 @@ public class PauseScreen : MonoBehaviour
             sfxIsPlaying = false;
         }
     }
+    
+    
 
     public void HideScreens()
     {

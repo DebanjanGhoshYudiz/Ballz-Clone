@@ -12,10 +12,10 @@ public class GameOverScreen : MonoBehaviour
     [SerializeField] private Text scoreText;
     [SerializeField] private ScoreManager scoreManager;
     [SerializeField] private GameObject mainBall;
-    [SerializeField] private MainBallMovement mainBallMovementScript;
     [SerializeField] private BallManager ballManager;
     [SerializeField] private Spawner spawnerScript;
     [SerializeField] private SwipeController swipeController;
+    [SerializeField] private GameEvents gameEvents;
     
 
     public void ShowScreen()
@@ -29,11 +29,7 @@ public class GameOverScreen : MonoBehaviour
     {
         gameStateManager.currentGameState = GameState.Gameplay;
         gameStateManager.main?.Invoke();
-        mainBall.transform.position = mainBallMovementScript.mainBallPosition;
-        ballManager.RemoveBall();
-        spawnerScript.GameResetSpawn();
-        scoreManager.ScoreReset();
-        swipeController.enabled = true;
+        gameEvents.GameOverReset?.Invoke();
     }
 
     public void OnClickMainMenu()
