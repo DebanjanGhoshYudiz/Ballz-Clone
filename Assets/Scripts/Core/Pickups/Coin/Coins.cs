@@ -6,6 +6,12 @@ public class Coins : MonoBehaviour
 {
     [SerializeField] private CoinManager coinManagerScriptableObj;
     [SerializeField] private AudioClip coinSfxAudioClip;
+    private Spawner _spawnerScript;
+
+    private void Start()
+    {
+        _spawnerScript = FindObjectOfType<Spawner>();
+    }
 
     private void OnTriggerEnter2D(Collider2D col)
     {
@@ -15,7 +21,8 @@ public class Coins : MonoBehaviour
             AudioManager.instance.PlaySfx(coinSfxAudioClip);
             Debug.Log(coinManagerScriptableObj.noOfCoinsCollected);
             coinManagerScriptableObj.updateCoin?.Invoke();
-            Destroy(gameObject);
+            CubeObjectPooling.Instance.CoinReturnToPool(this.gameObject);
+            _spawnerScript.RemovePickup(this.gameObject);
         }
     }
 }

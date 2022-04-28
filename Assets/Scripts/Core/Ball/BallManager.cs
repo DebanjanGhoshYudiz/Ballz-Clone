@@ -8,7 +8,6 @@ public class BallManager : MonoBehaviour
 {
     
     [SerializeField] private GameObject mainBall;
-    [SerializeField] private Rigidbody2D ballPrefab;
     [SerializeField] private SwipeController swipeControler;
     [SerializeField] private Spawner spawnerScript;
     [SerializeField] private PauseScreen pauseScreen;
@@ -18,6 +17,8 @@ public class BallManager : MonoBehaviour
     public Vector2 mainBallPosition;
     public List<Rigidbody2D> balls;
     public bool isGameRunning = false;
+    public Vector2 storeVelocity;
+    private Rigidbody2D mainBallRb2D;
 
 
 
@@ -25,11 +26,16 @@ public class BallManager : MonoBehaviour
     {
         // Subscribe Event which returns Vector 2 Direction
         swipeControler.Swipe += ThrowBall;
+        GameEvents.gameOverReset += GameplayOverRestart;
+        GameEvents.onResume += GameplayPauseToResume;
+        GameEvents.onGameOver += FreezeBalls;
+        GameEvents.onGameplayPause += GameplayToPause;
     }
 
     private void Start()
     {
         mainBallPosition = mainBall.transform.position;
+        mainBallRb2D = mainBall.GetComponent<Rigidbody2D>();
     }
 
 
@@ -38,8 +44,8 @@ public class BallManager : MonoBehaviour
         // Create ball when Extra ball pickup is taken by the Player.
         for (int i = 0; i < mainBallSize; i++)
         {
-            Rigidbody2D prefab = Instantiate(ballPrefab, transform);
-            prefab.gameObject.SetActive(false);
+            Rigidbody2D prefab = CubeObjectPooling.Instance.GetBalls();
+            prefab.gameObject.SetActive(true);
             prefab.transform.position = mainBallPosition;
             balls.Add(prefab);
         }
@@ -98,7 +104,7 @@ public class BallManager : MonoBehaviour
         {
             if (index >= 1)
             {
-                Destroy(balls[index].gameObject);
+                CubeObjectPooling.Instance.BallReturnToPool(balls[index]);
             }
             else if (index == 0)
             {
@@ -131,16 +137,39 @@ public class BallManager : MonoBehaviour
         }
     }
     
+    
     public void GiveVelocity()
     {
         for (int index = 0; index < balls.Count; index++)
         {
-            balls[index].velocity = pauseScreen.storeVelocity;
+            balls[index].velocity = storeVelocity;
         }
+    }
+
+    public void GameplayOverRestart()
+    {
+        mainBall.transform.position = mainBallPosition;
+        RemoveBall();
+    }
+
+    public void GameplayPauseToResume()
+    {
+        UnFreezeBalls();
+        GiveVelocity();
+    }
+
+    public void GameplayToPause()
+    {
+        storeVelocity = mainBallRb2D.velocity;
+        FreezeBalls();
     }
 
     private void OnDisable()
     {
         swipeControler.Swipe -= ThrowBall;
+        GameEvents.gameOverReset -= GameplayOverRestart;
+        GameEvents.onResume -= GameplayPauseToResume;
+        GameEvents.onGameOver -= FreezeBalls;
+        GameEvents.onGameplayPause -= GameplayToPause;
     }
 }

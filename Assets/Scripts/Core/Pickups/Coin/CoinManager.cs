@@ -18,9 +18,5 @@ public class CoinManager : ScriptableObject
     {
         PlayerPrefs.GetInt("coins", noOfCoinsCollected);
     }
-
-    
-    
-
     
 }

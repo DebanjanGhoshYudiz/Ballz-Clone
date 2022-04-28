@@ -7,12 +7,14 @@ public class CubeScript : MonoBehaviour
     [SerializeField] private AudioClip cubeSfxAudioClip;
     [SerializeField] private Renderer tmproTextRenderer;
     [SerializeField] private SpriteRenderer cubeSpriteRenderer;
+    private Spawner spawnerScript;
     public int cubeNumber;
     
     
 
     private void Start()
     {
+        spawnerScript = FindObjectOfType<Spawner>();
         tmproTextRenderer.sortingOrder = 2;
         CubeColorChange();
     }
@@ -57,7 +59,8 @@ public class CubeScript : MonoBehaviour
             }
             else if (cubeNumber == 1)
             {
-                Destroy(gameObject);
+                CubeObjectPooling.Instance.ReturnToPool(this);
+                spawnerScript.RemoveCube(this);
             }
 
         }

@@ -5,16 +5,26 @@ using UnityEngine;
 
 public class ExtraBall : MonoBehaviour
 {
+    private BallManager _ballManager;
+    private Spawner _spawnerScirpt;
     public int ballSize;
+
+    private void Start()
+    {
+        _ballManager = FindObjectOfType<BallManager>();
+        _spawnerScirpt = FindObjectOfType<Spawner>();
+    }
+
     private void OnTriggerEnter2D(Collider2D col)
     {
         if (col.gameObject.CompareTag("Player"))
         {
             ballSize++;
             Debug.Log(ballSize);
-            FindObjectOfType<BallManager>().CreateBall(ballSize);
+            _ballManager.CreateBall(ballSize);
             Debug.Log("Created Ball");
-            Destroy(gameObject);
+            CubeObjectPooling.Instance.ExtraBallReturnToPool(this.gameObject);
+            _spawnerScirpt.RemovePickup(this.gameObject);
         }
     }
 }

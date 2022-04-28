@@ -6,12 +6,19 @@ using UnityEngine;
 // AudioManager
 public class AudioManager : MonoBehaviour
 {
-    public static AudioManager instance;
+    public static AudioManager instance { get; private set; }
     private AudioSource _sfxAudioSource;
 
     private void Awake()
     {
-        instance = this;
+        if (instance == null)
+        {
+            instance = FindObjectOfType(typeof(AudioManager)) as AudioManager;
+        }
+        else
+        {
+            instance = this;
+        }
         // Adding AudioSource To the Game Object.
         _sfxAudioSource = gameObject.AddComponent<AudioSource>();
         Debug.Log("Sfx Source Added!");

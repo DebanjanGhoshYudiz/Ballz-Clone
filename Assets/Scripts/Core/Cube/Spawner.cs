@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Net.Sockets;
 using UnityEngine;
@@ -33,15 +34,18 @@ public class Spawner : MonoBehaviour
     public float _cubeOffsetDown;
     
     [Header("Script Reference")]
-    [SerializeField] private ScoreManager scoreManager;
     [SerializeField] private GameplayScreen gameplayScreen;
-    [SerializeField] private SwipeController swipeController;
-    
-    
+    [SerializeField] private CubeObjectPooling cubeObjectPooling;
+
+
     [Header("AudioClip")]
     [SerializeField] private AudioClip nextLevelAudioClip;
-   
-    
+
+
+    private void OnEnable()
+    {
+        GameEvents.gameOverReset += GameResetSpawn;
+    }
 
 
     private void Start()
@@ -62,9 +66,11 @@ public class Spawner : MonoBehaviour
             if (Random.Range(0, 100) >= 10)
             {
                 Vector3 randomXPos = new Vector3(Random.Range(0,5), setYPos) * _cubeOffset;
-                GameObject anotherPrefab = Instantiate(coinPrefab, randomXPos, Quaternion.identity, cubeHolder);
-                anotherPrefab.transform.position =
-                    new Vector3(anotherPrefab.transform.position.x + setXPos, anotherPrefab.transform.position.y);
+                GameObject anotherPrefab = CubeObjectPooling.Instance.GetCoin();
+                anotherPrefab.transform.position = randomXPos;
+                anotherPrefab.SetActive(true);
+                // anotherPrefab.transform.position =
+                //     new Vector3(anotherPrefab.transform.position.x + setXPos, anotherPrefab.transform.position.y);
                 pickupList.Add(anotherPrefab);
             }
             GenerateRandomCoinLine();
@@ -75,9 +81,9 @@ public class Spawner : MonoBehaviour
             if (Random.Range(0, 100) >= 10)
             {
                 Vector3 randomXPos = new Vector3(Random.Range(0, 5), setYPos) * _cubeOffset;
-                GameObject anotherPrefab = Instantiate(extraBallPrefab, randomXPos, Quaternion.identity, cubeHolder);
-                anotherPrefab.transform.position =
-                    new Vector3(anotherPrefab.transform.position.x + setXPos, anotherPrefab.transform.position.y);
+                GameObject anotherPrefab = CubeObjectPooling.Instance.GetExtraBall();
+                anotherPrefab.transform.position = randomXPos;
+                anotherPrefab.SetActive(true);
                 pickupList.Add(anotherPrefab);
             }
             GenerateRandomExtraBallLine();
@@ -89,10 +95,12 @@ public class Spawner : MonoBehaviour
             {
                 if (Random.Range(0, 100) >= 50)
                 {
-                    Vector3 randomXPos = new Vector3(x, setYPos) * _cubeOffset;
-                    CubeScript prefab = Instantiate(cubePrefab, randomXPos, Quaternion.identity, cubeHolder);
-                    prefab.transform.position =
-                        new Vector3(prefab.transform.position.x + setXPos, prefab.transform.position.y);
+                    Vector3 setRandomXPos = new Vector3(x + setXPos, setYPos) * _cubeOffset;
+                    CubeScript prefab = CubeObjectPooling.Instance.Get();
+                    prefab.transform.position = setRandomXPos;
+                    prefab.gameObject.SetActive(true);
+                    // prefab.transform.position =
+                    //     new Vector3(prefab.transform.position.x + setXPos, prefab.transform.position.y);
                     _levelCubeNumber = Random.Range(1, 3) + _noOfRowSpawned;
                     prefab.UpdateCubeNumber(_levelCubeNumber);
                     cubesList.Add(prefab);
@@ -146,8 +154,9 @@ public class Spawner : MonoBehaviour
         {
             if (cubesList[i] != null)
             {
-                Debug.Log("Cubes Destroy!");
-                Destroy(cubesList[i].gameObject);
+                Debug.Log("Cubes Return to pool!");
+                //Destroy(cubesList[i].gameObject);
+                CubeObjectPooling.Instance.ReturnToPool(cubesList[i]);
             }
         }
         cubesList.Clear();
@@ -156,7 +165,17 @@ public class Spawner : MonoBehaviour
         {
             if (pickupList[i] != null)
             {
-                Destroy(pickupList[i]);
+                //Destroy(pickupList[i]);
+                if (pickupList[i].CompareTag("Coin"))
+                {
+                    Debug.Log("Coin returned to pool!");
+                    CubeObjectPooling.Instance.CoinReturnToPool(pickupList[i]);
+                }
+                else if (pickupList[i].CompareTag("ExtraBall"))
+                {
+                    Debug.Log("ExtraBall returned to pool!");
+                    CubeObjectPooling.Instance.ExtraBallReturnToPool(pickupList[i]);
+                }
             }
         }
         pickupList.Clear();
@@ -168,7 +187,21 @@ public class Spawner : MonoBehaviour
         _coinLineSpawned++;
         _extraBallLineSpawned++;
     }
-    
+
+    public void RemoveCube(CubeScript cube)
+    {
+        cubesList.Remove(cube);
+    }
+
+    public void RemovePickup(GameObject pickup)
+    {
+        pickupList.Remove(pickup);
+    }
+
+    private void OnDisable()
+    {
+        GameEvents.gameOverReset -= GameResetSpawn;
+    }
 }
 
 

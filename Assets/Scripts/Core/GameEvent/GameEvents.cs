@@ -1,34 +1,34 @@
-using System;
-using UnityEngine;
+public delegate void GameOverReset();
+public delegate void OnResume();
 
+public delegate void OnGameOver();
 
-public class GameEvents : MonoBehaviour
+public delegate void OnGameplayPause();
+public static class GameEvents 
 {
-    public Action GameOverReset;
-    public Action OnResume;
-    public Action OnGameOver;
-    public Action OnGameplayPause;
-
-
-
-    public void GameOverResetContent()
+    public static event GameOverReset gameOverReset;
+    public static event OnResume onResume;
+    public static event OnGameOver onGameOver;
+    public static event OnGameplayPause onGameplayPause;
+    
+    public static void GameOverResetContent()
     {
-        GameOverReset?.Invoke();
+        gameOverReset?.Invoke();
     }
 
-    public void PauseOnResume()
+    public static void PauseOnResume()
     {
-        OnResume?.Invoke();
+        onResume?.Invoke();
     }
 
-    public void GameOverContent()
+    public static void GameOverContent()
     {
-        OnGameOver?.Invoke();
+        onGameOver?.Invoke();
     }
 
-    public void GameplayPause()
+    public static void GameplayPause()
     {
-        OnGameplayPause?.Invoke();
+        onGameplayPause?.Invoke();
     }
 }
     

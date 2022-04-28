@@ -10,30 +10,27 @@ public class GameOverScreen : MonoBehaviour
     [SerializeField] private Text highScoreText;
     [SerializeField] private Text scoreText;
     [SerializeField] private ScoreManager scoreManager;
-    [SerializeField] private GameEvents gameEvents;
     [SerializeField] private SwipeController swipeController;
     [SerializeField] private CoinManager coinManager;
     [SerializeField] private BallManager ballManager;
 
-
-    private void OnEnable()
-    {
-        gameEvents.OnGameOver += OnGameOver;
-    }
+    
 
     public void ShowScreen()
     {
         gameOverCanvas.enabled = true;
         highScoreText.text = scoreManager.highScore.ToString();
         scoreText.text = scoreManager.score.ToString();
-        
+        coinManager.SetCoins();
+        scoreManager.CheckHighscore();
+        scoreManager.ScoreReset();
     }
 
     public void OnClickRestart()
     {
         gameStateManager.currentGameState = GameState.Gameplay;
         gameStateManager.main?.Invoke();
-        gameEvents.GameOverResetContent();
+        GameEvents.GameOverResetContent();
     }
 
     public void OnClickMainMenu()
@@ -46,22 +43,11 @@ public class GameOverScreen : MonoBehaviour
         Debug.Log("Quit!");
         Application.Quit();
     }
-
-    public void OnGameOver()
-    {
-        swipeController.enabled = false;
-        coinManager.SetCoins();
-        scoreManager.CheckHighscore();
-        ballManager.FreezeBalls();
-    }
+    
 
     public void HideScreens()
     {
         gameOverCanvas.enabled = false;
     }
-
-    private void OnDisable()
-    {
-        gameEvents.OnGameOver -= OnGameOver;
-    }
+    
 }
