@@ -10,14 +10,13 @@ public class BallManager : MonoBehaviour
     [SerializeField] private GameObject mainBall;
     [SerializeField] private SwipeController swipeControler;
     [SerializeField] private Spawner spawnerScript;
-    [SerializeField] private PauseScreen pauseScreen;
     public int ballCounter;
     private Rigidbody2D tmpBallRb2D;
     public float ballForce;
     public Vector2 mainBallPosition;
     public List<Rigidbody2D> balls;
-    public bool isGameRunning = false;
-    public Vector2 storeVelocity;
+    public bool isGameRunning = true;
+    public List<Vector2> storeVelocity;
     private Rigidbody2D mainBallRb2D;
 
 
@@ -26,17 +25,25 @@ public class BallManager : MonoBehaviour
     {
         // Subscribe Event which returns Vector 2 Direction
         swipeControler.Swipe += ThrowBall;
-        GameEvents.gameOverReset += GameplayOverRestart;
+        GameEvents.ResetGame += GameplayOverRestart;
         GameEvents.onResume += GameplayPauseToResume;
         GameEvents.onGameOver += FreezeBalls;
         GameEvents.onGameplayPause += GameplayToPause;
+        GameEvents.onPlay += GameStart;
     }
 
     private void Start()
     {
         mainBallPosition = mainBall.transform.position;
         mainBallRb2D = mainBall.GetComponent<Rigidbody2D>();
+        mainBallRb2D.constraints = RigidbodyConstraints2D.FreezeAll;
     }
+
+    public void GameStart()
+    {
+        isGameRunning = false;
+    }
+    
 
 
     public void CreateBall( int mainBallSize)
@@ -142,7 +149,16 @@ public class BallManager : MonoBehaviour
     {
         for (int index = 0; index < balls.Count; index++)
         {
-            balls[index].velocity = storeVelocity;
+            balls[index].velocity = storeVelocity[index];
+        }
+        storeVelocity.Clear();
+    }
+
+    public void StoreVelocity()
+    {
+        for (int index = 0; index < balls.Count; index++)
+        {
+            storeVelocity.Add(balls[index].velocity);
         }
     }
 
@@ -160,14 +176,14 @@ public class BallManager : MonoBehaviour
 
     public void GameplayToPause()
     {
-        storeVelocity = mainBallRb2D.velocity;
+        StoreVelocity();
         FreezeBalls();
     }
 
     private void OnDisable()
     {
         swipeControler.Swipe -= ThrowBall;
-        GameEvents.gameOverReset -= GameplayOverRestart;
+        GameEvents.ResetGame -= GameplayOverRestart;
         GameEvents.onResume -= GameplayPauseToResume;
         GameEvents.onGameOver -= FreezeBalls;
         GameEvents.onGameplayPause -= GameplayToPause;

@@ -71,66 +71,6 @@ public class CubeObjectPooling : MonoBehaviour
     }
     
     
-    //Coins
-    public GameObject GetCoin()
-    {
-        if (coinQueue.Count == 0)
-        {
-            AddObjectCoin(noOfCoinToPool);
-        }
-
-        return coinQueue.Dequeue();
-    }
-
-    public void AddObjectCoin(int count)
-    {
-        for (int coin = 0; coin < count; coin++)
-        {
-            GameObject prefab = Instantiate(coinPrefab, pickupHolder.transform);
-            prefab.SetActive(false);
-            coinQueue.Enqueue(prefab);
-        }
-    }
-
-    public void CoinReturnToPool(GameObject coin)
-    {
-        if (coin != null)
-        {
-            coin.gameObject.SetActive(false);
-            coinQueue.Enqueue(coin);
-        }
-    }
-    
-    
-    // ExtraBall
-    
-    public GameObject GetExtraBall()
-    {
-        if (extraBallQueue.Count == 0)
-        {
-            AddObjectExtraBall(noOfExtraBallToPool);
-        }
-        return extraBallQueue.Dequeue();
-    }
-
-    public void AddObjectExtraBall(int count)
-    {
-        for (int extraBall = 0; extraBall < count; extraBall++)
-        {
-            GameObject prefab = Instantiate(extraBallPrefab, pickupHolder.transform);
-            prefab.SetActive(false);
-            extraBallQueue.Enqueue(prefab);
-        }
-    }
-
-    public void ExtraBallReturnToPool(GameObject extraBall)
-    {
-        if (extraBall != null)
-        {
-            extraBall.gameObject.SetActive(false);
-            coinQueue.Enqueue(extraBall);
-        }
-    }
     
     // Ball
     public Rigidbody2D GetBalls()

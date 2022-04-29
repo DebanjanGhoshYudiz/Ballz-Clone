@@ -10,3 +10,11 @@ public enum GameState
     MainMenu,
     GameOver,
 }
+
+public enum Screens
+{
+    GameplayScreen,
+    PauseScreen,
+    MainMenuScreen,
+    GameOverScreen,
+}

@@ -1,8 +1,10 @@
+using System;
 using UnityEngine;
 
 public class GameOver : MonoBehaviour
 {
     [SerializeField] private GameStateManager gameStateManager;
+    
 
     private void OnTriggerEnter2D(Collider2D col)
     {
@@ -10,7 +12,7 @@ public class GameOver : MonoBehaviour
         {
             Debug.Log("GameOver!");
             gameStateManager.currentGameState = GameState.GameOver;
-            gameStateManager.main?.Invoke();
+            gameStateManager.main?.Invoke(Screens.GameOverScreen);
             GameEvents.GameOverContent();
         }
     }

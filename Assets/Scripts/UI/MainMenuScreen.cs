@@ -18,7 +18,6 @@ public class MainMenuScreen : MonoBehaviour
     [SerializeField] private Image sfxBtn;
     [SerializeField] private Sprite sfxOn;
     [SerializeField] private Sprite sfxOff;
-    [SerializeField] private SwipeController swipeController;
     private bool _sfxIsPlaying = true;
     
     
@@ -26,20 +25,15 @@ public class MainMenuScreen : MonoBehaviour
     {
         coinManager.GetCoins();
         scoreManager.GetHighscore();
-        swipeController.enabled = false;
     }
-
-    public void ShowScreen()
-    {
-        mainMenuCanvas.enabled = true;
-    }
-
+    
     public void OnClickPlay()
     {
         gameStateManager.currentGameState = GameState.Gameplay;
-        gameStateManager.main?.Invoke();
+        gameStateManager.main?.Invoke(Screens.GameplayScreen);
         scoreManager.ScoreReset();
         gameplayScoreText.text = scoreManager.score.ToString();
+        GameEvents.PlayGame();
     }
 
     public void OnClickSfxSound()
@@ -64,9 +58,5 @@ public class MainMenuScreen : MonoBehaviour
         Application.Quit();
     }
 
-    public void HideScreens()
-    {
-        mainMenuCanvas.enabled = false;
-    }
     
 }

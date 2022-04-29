@@ -5,7 +5,7 @@ public class BallMovement : MonoBehaviour
 {
     [SerializeField] private Rigidbody2D rb2D;
     private BallManager ballManager;
-
+    public bool firstTime = true;
 
     private void Start()
     {
@@ -17,11 +17,13 @@ public class BallMovement : MonoBehaviour
         Debug.Log("Collide outer");
         if (col.gameObject.CompareTag("LowerWall"))
         {
-            Debug.Log("Collide Inside!");
+
+            ballManager.CollectBall(rb2D);
             rb2D.velocity = Vector2.zero;
             rb2D.constraints = RigidbodyConstraints2D.FreezeAll;
-            ballManager.CollectBall(rb2D);
         }
     }
-
 }
+
+    
+    

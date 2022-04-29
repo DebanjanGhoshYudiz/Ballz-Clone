@@ -21,16 +21,14 @@ public class GameOverScreen : MonoBehaviour
         gameOverCanvas.enabled = true;
         highScoreText.text = scoreManager.highScore.ToString();
         scoreText.text = scoreManager.score.ToString();
-        coinManager.SetCoins();
-        scoreManager.CheckHighscore();
-        scoreManager.ScoreReset();
     }
 
     public void OnClickRestart()
     {
         gameStateManager.currentGameState = GameState.Gameplay;
-        gameStateManager.main?.Invoke();
+        gameStateManager.main?.Invoke(Screens.GameplayScreen);
         GameEvents.GameOverResetContent();
+        scoreManager.ScoreReset();
     }
 
     public void OnClickMainMenu()

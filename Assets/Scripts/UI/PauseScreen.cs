@@ -27,16 +27,11 @@ public class PauseScreen : MonoBehaviour
 
 
     
-
-    public void ShowScreen()
-    {
-        pausedCanvas.enabled = true;
-    }
-
+    
     public void OnClickContinue()
     {
         gameStateManager.currentGameState = GameState.Gameplay;
-        gameStateManager.main?.Invoke();
+        gameStateManager.main?.Invoke(Screens.GameplayScreen);
         GameEvents.PauseOnResume();
     }
 
@@ -65,10 +60,6 @@ public class PauseScreen : MonoBehaviour
     }
     
     
-
-    public void HideScreens()
-    {
-        pausedCanvas.enabled = false;
-    }
+    
     
 }

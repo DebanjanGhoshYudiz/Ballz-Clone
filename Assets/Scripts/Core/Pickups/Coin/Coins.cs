@@ -21,8 +21,7 @@ public class Coins : MonoBehaviour
             AudioManager.instance.PlaySfx(coinSfxAudioClip);
             Debug.Log(coinManagerScriptableObj.noOfCoinsCollected);
             coinManagerScriptableObj.updateCoin?.Invoke();
-            CubeObjectPooling.Instance.CoinReturnToPool(this.gameObject);
-            _spawnerScript.RemovePickup(this.gameObject);
+            Destroy(this.gameObject);
         }
     }
 }

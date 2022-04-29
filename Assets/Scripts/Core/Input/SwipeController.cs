@@ -1,5 +1,7 @@
 using System;
+using System.Collections;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class SwipeController : MonoBehaviour
 {
@@ -10,20 +12,24 @@ public class SwipeController : MonoBehaviour
     private Vector3 _touchDirection;
     public float lenghtOfLineRenderer;
     public Action<Vector2> Swipe;
-    public bool swipe = true;
+    public bool swipe = false;
 
     private void OnEnable()
     {
-        GameEvents.gameOverReset += OnSwipeEnable;
+        GameEvents.ResetGame += OnSwipeEnable;
         GameEvents.onResume += OnSwipeEnable;
         GameEvents.onGameOver += OnSwipeDisable;
         GameEvents.onGameplayPause += OnSwipeDisable;
+        GameEvents.onPlay += OnSwipeEnable;
     }
 
     private void Update()
     {
         if (swipe)
         {
+            if (EventSystem.current.IsPointerOverGameObject())
+                return;
+            
             if (Input.GetMouseButtonDown(0))
             {
                 // Tap Start
@@ -51,6 +57,12 @@ public class SwipeController : MonoBehaviour
 
     public void OnSwipeEnable()
     {
+        StartCoroutine(OntrueSwipe());
+    }
+
+    IEnumerator OntrueSwipe()
+    {
+        yield return new WaitForSeconds(1f);
         swipe = true;
     }
 
@@ -61,9 +73,10 @@ public class SwipeController : MonoBehaviour
 
     private void OnDisable()
     {
-        GameEvents.gameOverReset -= OnSwipeEnable;
+        GameEvents.ResetGame -= OnSwipeEnable;
         GameEvents.onResume -= OnSwipeEnable;
         GameEvents.onGameOver -= OnSwipeDisable;
         GameEvents.onGameplayPause -= OnSwipeDisable;
+        GameEvents.onPlay -= OnSwipeEnable;
     }
 }

@@ -8,7 +8,6 @@ public class GameplayScreen : MonoBehaviour
     [SerializeField] private GameStateManager gameStateManager;
     [SerializeField] private CoinManager coinManager;
     [SerializeField] private ScoreManager scoreManager;
-    [SerializeField] private SwipeController swipeController;
 
     [Header("UI")]
     [SerializeField] private Canvas gameplayCanvas;
@@ -20,12 +19,18 @@ public class GameplayScreen : MonoBehaviour
     {
         coinManager.updateCoin += UpdateCoin;
     }
-    
+
+    private void Start()
+    {
+        gameplayCoinText.text = coinManager.noOfCoinsCollected.ToString();
+        gameplayScoreText.text = scoreManager.score.ToString();
+    }
+
 
     public void OnClickPause()
     {
         gameStateManager.currentGameState = GameState.Pause;
-        gameStateManager.main?.Invoke();
+        gameStateManager.main?.Invoke(Screens.PauseScreen);
         GameEvents.GameplayPause();
     }
 
@@ -40,20 +45,13 @@ public class GameplayScreen : MonoBehaviour
         gameplayCoinText.text = coinManager.noOfCoinsCollected.ToString();
     }
 
-    public void ShowScreen()
-    {
-        gameplayCoinText.text = coinManager.noOfCoinsCollected.ToString();
-        gameplayScoreText.text = scoreManager.score.ToString();
-        gameplayCanvas.enabled = true;
-        swipeController.enabled = true;
-    }
+    // public void ShowScreen()
+    // {
+    //     gameplayCoinText.text = coinManager.noOfCoinsCollected.ToString();
+    //     gameplayScoreText.text = scoreManager.score.ToString();
+    //     swipeController.enabled = true;
+    // }
 
-    public void HideScreens()
-    {
-        gameplayCanvas.enabled = false;
-    }
-    
-    
     private void OnDisable()
     {
         coinManager.updateCoin -= UpdateCoin;

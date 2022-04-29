@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Net.Sockets;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -28,14 +26,12 @@ public class Spawner : MonoBehaviour
     [Header("Spawn Related")]
     [SerializeField] private float setYPos;
     [SerializeField] private float setXPos;
-    [SerializeField] private Transform cubeHolder;
     private int _xSize;
     public float _cubeOffset;
     public float _cubeOffsetDown;
     
     [Header("Script Reference")]
     [SerializeField] private GameplayScreen gameplayScreen;
-    [SerializeField] private CubeObjectPooling cubeObjectPooling;
 
 
     [Header("AudioClip")]
@@ -44,7 +40,7 @@ public class Spawner : MonoBehaviour
 
     private void OnEnable()
     {
-        GameEvents.gameOverReset += GameResetSpawn;
+        GameEvents.ResetGame += ResetGameResetSpawn;
     }
 
 
@@ -63,14 +59,12 @@ public class Spawner : MonoBehaviour
         if (_coinLineSpawned == _randomLineSpawned)
         {
             _coinLineSpawned = 0;
-            if (Random.Range(0, 100) >= 10)
+            if (Random.Range(0, 100) >= 50)
             {
                 Vector3 randomXPos = new Vector3(Random.Range(0,5), setYPos) * _cubeOffset;
-                GameObject anotherPrefab = CubeObjectPooling.Instance.GetCoin();
-                anotherPrefab.transform.position = randomXPos;
-                anotherPrefab.SetActive(true);
-                // anotherPrefab.transform.position =
-                //     new Vector3(anotherPrefab.transform.position.x + setXPos, anotherPrefab.transform.position.y);
+                GameObject anotherPrefab = Instantiate(coinPrefab, randomXPos, Quaternion.identity);
+                anotherPrefab.transform.position =
+                    new Vector3(anotherPrefab.transform.position.x + setXPos, anotherPrefab.transform.position.y);
                 pickupList.Add(anotherPrefab);
             }
             GenerateRandomCoinLine();
@@ -78,12 +72,12 @@ public class Spawner : MonoBehaviour
         else if (_extraBallLineSpawned == _randomExtraBallLineSpawned)
         {
             _extraBallLineSpawned = 0;
-            if (Random.Range(0, 100) >= 10)
+            if (Random.Range(0, 100) >= 50)
             {
                 Vector3 randomXPos = new Vector3(Random.Range(0, 5), setYPos) * _cubeOffset;
-                GameObject anotherPrefab = CubeObjectPooling.Instance.GetExtraBall();
-                anotherPrefab.transform.position = randomXPos;
-                anotherPrefab.SetActive(true);
+                GameObject anotherPrefab = Instantiate(extraBallPrefab, randomXPos, Quaternion.identity);
+                anotherPrefab.transform.position =
+                    new Vector3(anotherPrefab.transform.position.x + setXPos, anotherPrefab.transform.position.y);
                 pickupList.Add(anotherPrefab);
             }
             GenerateRandomExtraBallLine();
@@ -148,7 +142,7 @@ public class Spawner : MonoBehaviour
         _randomExtraBallLineSpawned = randomLine;
     }
 
-    public void GameResetSpawn()
+    public void ResetGameResetSpawn()
     {
         for (int i = 0; i < cubesList.Count; i++)
         {
@@ -165,17 +159,7 @@ public class Spawner : MonoBehaviour
         {
             if (pickupList[i] != null)
             {
-                //Destroy(pickupList[i]);
-                if (pickupList[i].CompareTag("Coin"))
-                {
-                    Debug.Log("Coin returned to pool!");
-                    CubeObjectPooling.Instance.CoinReturnToPool(pickupList[i]);
-                }
-                else if (pickupList[i].CompareTag("ExtraBall"))
-                {
-                    Debug.Log("ExtraBall returned to pool!");
-                    CubeObjectPooling.Instance.ExtraBallReturnToPool(pickupList[i]);
-                }
+                Destroy(pickupList[i]);
             }
         }
         pickupList.Clear();
@@ -192,15 +176,11 @@ public class Spawner : MonoBehaviour
     {
         cubesList.Remove(cube);
     }
-
-    public void RemovePickup(GameObject pickup)
-    {
-        pickupList.Remove(pickup);
-    }
+    
 
     private void OnDisable()
     {
-        GameEvents.gameOverReset -= GameResetSpawn;
+        GameEvents.ResetGame -= ResetGameResetSpawn;
     }
 }
 
