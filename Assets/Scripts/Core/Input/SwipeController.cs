@@ -13,6 +13,8 @@ public class SwipeController : MonoBehaviour
     public float lenghtOfLineRenderer;
     public Action<Vector2> Swipe;
     public bool swipe = false;
+    public float threshold;
+    public bool isSwiping = false;
 
     private void OnEnable()
     {
@@ -32,7 +34,9 @@ public class SwipeController : MonoBehaviour
             
             if (Input.GetMouseButtonDown(0))
             {
+                Debug.Log("Touch Detected!");
                 // Tap Start
+                isSwiping = true;
                 _touchStartPos = Input.mousePosition;
                 lineRenderer.enabled = true;
                 lineRenderer.SetPosition(0, mainBall.position);
@@ -46,23 +50,27 @@ public class SwipeController : MonoBehaviour
 
             else if (Input.GetMouseButtonUp(0))
             {
-                // Tap End
-                _touchEndPos = Input.mousePosition;
-                _touchDirection = _touchStartPos - _touchEndPos;
-                lineRenderer.enabled = false;
-                Swipe?.Invoke(_touchDirection.normalized);
+                if (isSwiping)
+                {
+                    // Tap End
+                    _touchEndPos = Input.mousePosition;
+                    _touchDirection = _touchStartPos - _touchEndPos;
+                    float _touchDirectionMagnitude = _touchDirection.magnitude;
+                    Debug.Log($"Threshold = {_touchDirectionMagnitude}");
+                    lineRenderer.enabled = false;
+                    if (_touchDirectionMagnitude > threshold)
+                    {
+                        Debug.Log("touchDirection Higher than threshold!");
+                        Swipe?.Invoke(_touchDirection.normalized);
+                    }
+                    isSwiping = false;
+                }
             }
         }
     }
 
     public void OnSwipeEnable()
     {
-        StartCoroutine(OntrueSwipe());
-    }
-
-    IEnumerator OntrueSwipe()
-    {
-        yield return new WaitForSeconds(1f);
         swipe = true;
     }
 

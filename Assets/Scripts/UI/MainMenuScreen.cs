@@ -6,7 +6,6 @@ public class MainMenuScreen : MonoBehaviour
 {
     
     [Header("Script Reference")]
-    [SerializeField] private GameStateManager gameStateManager;
     [SerializeField] private CoinManager coinManager;
     [SerializeField] private ScoreManager scoreManager;
     
@@ -29,8 +28,7 @@ public class MainMenuScreen : MonoBehaviour
     
     public void OnClickPlay()
     {
-        gameStateManager.currentGameState = GameState.Gameplay;
-        gameStateManager.main?.Invoke(Screens.GameplayScreen);
+        UIManager.instance.ShowScreen(Screens.GameplayScreen);
         scoreManager.ScoreReset();
         gameplayScoreText.text = scoreManager.score.ToString();
         GameEvents.PlayGame();

@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class GameplayScreen : MonoBehaviour
 {
-    [SerializeField] private GameStateManager gameStateManager;
     [SerializeField] private CoinManager coinManager;
     [SerializeField] private ScoreManager scoreManager;
 
@@ -29,8 +28,7 @@ public class GameplayScreen : MonoBehaviour
 
     public void OnClickPause()
     {
-        gameStateManager.currentGameState = GameState.Pause;
-        gameStateManager.main?.Invoke(Screens.PauseScreen);
+        UIManager.instance.ShowScreen(Screens.PauseScreen);
         GameEvents.GameplayPause();
     }
 

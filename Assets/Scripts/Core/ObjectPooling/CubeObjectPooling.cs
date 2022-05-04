@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using System.Security.Cryptography.X509Certificates;
 using UnityEngine;
 
 public class CubeObjectPooling : MonoBehaviour
@@ -13,23 +14,16 @@ public class CubeObjectPooling : MonoBehaviour
     public Queue<CubeScript> cubeQueue = new Queue<CubeScript>();
     public int noOfObjectsToPool;
     public GameObject cubePrefabHolder;
-    
-    [Header("Coin")]
-    public GameObject coinPrefab;
-    public Queue<GameObject> coinQueue = new Queue<GameObject>();
-    public int noOfCoinToPool;
-    public GameObject pickupHolder;
-
-    [Header("ExtraBall")] 
-    public GameObject extraBallPrefab;
-    public Queue<GameObject> extraBallQueue = new Queue<GameObject>();
-    public int noOfExtraBallToPool;
 
     [Header("Ball")] 
     public Rigidbody2D ballPrefab;
     public Queue<Rigidbody2D> ballQueue = new Queue<Rigidbody2D>();
     public int noOfBallToPool;
     public GameObject ballPrefabHolder;
+
+    [Header("Pickup")] 
+    public List<PickupContent> pickupList;
+    public Queue<GameObject> pickupQueue = new Queue<GameObject>();
 
     private void Awake()
     {
@@ -92,11 +86,48 @@ public class CubeObjectPooling : MonoBehaviour
             ballQueue.Enqueue(prefab);
         }
     }
-
+    
     public void BallReturnToPool(Rigidbody2D ball)
     {
         ball.gameObject.SetActive(false);
         ballQueue.Enqueue(ball);
     }
+    
+    //Pickup
+    [System.Serializable]
+    public class PickupContent
+    {
+        public Pickup pickupEnum;
+        public GameObject prefabPickup;
+    }
+
+    public GameObject GetPickup(Pickup pickup)
+    {
+        if (pickupQueue.Count == 0)
+        {
+            AddObjectsPickup(1, pickup);
+        }
+
+        return pickupQueue.Dequeue();
+    }
+
+    public void AddObjectsPickup(int count, Pickup pickup)
+    {
+        for (int index = 0; index < count; index++)
+        {
+            GameObject findObj = pickupList.Find(x => x.pickupEnum == pickup).prefabPickup;
+            GameObject prefab = Instantiate(findObj);
+            prefab.gameObject.SetActive(false);
+            pickupQueue.Enqueue(prefab);
+        }
+    }
+
+    public void PickupReturnToPool(GameObject pickupGo)
+    {
+        pickupGo.gameObject.SetActive(false);
+        pickupQueue.Enqueue(pickupGo);
+    }
+
+   
 
 }

@@ -1,23 +1,32 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
-    [SerializeField] private GameStateManager gameStateManager;
+    public static UIManager instance { get; private set; }
     public List<ScreenView> screenList;
     public Canvas currentCanvas;
 
-
-    private void OnEnable()
+    private void Awake()
     {
-        gameStateManager.main += ShowScreen;
+        if (instance == null)
+        {
+            instance = FindObjectOfType(typeof(UIManager)) as UIManager;
+        }
+        else
+        {
+            instance = this;
+        }
     }
+    
 
-    private void OnDisable()
+    private void Start()
     {
-        gameStateManager.main -= ShowScreen;
+        ShowScreen(Screens.MainMenuScreen);
     }
+    
 
     [System.Serializable]
     public class ScreenView
@@ -31,9 +40,9 @@ public class UIManager : MonoBehaviour
         if (currentCanvas != null)
         {
             currentCanvas.enabled = false;
-            currentCanvas = screenList.Find(x => x.screenEnum == screen).screen;
-            currentCanvas.enabled = true;
         }
+        currentCanvas = screenList.Find(x => x.screenEnum == screen).screen;
+        currentCanvas.enabled = true;
     }
 
 }

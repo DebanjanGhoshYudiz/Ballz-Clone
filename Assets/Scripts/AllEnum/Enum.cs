@@ -18,3 +18,9 @@ public enum Screens
     MainMenuScreen,
     GameOverScreen,
 }
+
+public enum Pickup
+{
+    coin,
+    extraBall,
+}

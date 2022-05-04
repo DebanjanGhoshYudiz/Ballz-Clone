@@ -62,9 +62,12 @@ public class Spawner : MonoBehaviour
             if (Random.Range(0, 100) >= 50)
             {
                 Vector3 randomXPos = new Vector3(Random.Range(0,5), setYPos) * _cubeOffset;
-                GameObject anotherPrefab = Instantiate(coinPrefab, randomXPos, Quaternion.identity);
-                anotherPrefab.transform.position =
-                    new Vector3(anotherPrefab.transform.position.x + setXPos, anotherPrefab.transform.position.y);
+                // GameObject anotherPrefab = Instantiate(coinPrefab, randomXPos, Quaternion.identity);
+                // anotherPrefab.transform.position =
+                //     new Vector3(anotherPrefab.transform.position.x + setXPos, anotherPrefab.transform.position.y);
+                GameObject anotherPrefab = CubeObjectPooling.Instance.GetPickup(Pickup.coin);
+                anotherPrefab.transform.position = randomXPos;
+                anotherPrefab.gameObject.SetActive(true);
                 pickupList.Add(anotherPrefab);
             }
             GenerateRandomCoinLine();
@@ -75,9 +78,12 @@ public class Spawner : MonoBehaviour
             if (Random.Range(0, 100) >= 50)
             {
                 Vector3 randomXPos = new Vector3(Random.Range(0, 5), setYPos) * _cubeOffset;
-                GameObject anotherPrefab = Instantiate(extraBallPrefab, randomXPos, Quaternion.identity);
-                anotherPrefab.transform.position =
-                    new Vector3(anotherPrefab.transform.position.x + setXPos, anotherPrefab.transform.position.y);
+                // GameObject anotherPrefab = Instantiate(extraBallPrefab, randomXPos, Quaternion.identity);
+                // anotherPrefab.transform.position =
+                //     new Vector3(anotherPrefab.transform.position.x + setXPos, anotherPrefab.transform.position.y);
+                GameObject anotherPrefab = CubeObjectPooling.Instance.GetPickup(Pickup.extraBall);
+                anotherPrefab.transform.position = randomXPos;
+                anotherPrefab.gameObject.SetActive(true);
                 pickupList.Add(anotherPrefab);
             }
             GenerateRandomExtraBallLine();
@@ -159,7 +165,8 @@ public class Spawner : MonoBehaviour
         {
             if (pickupList[i] != null)
             {
-                Destroy(pickupList[i]);
+                //Destroy(pickupList[i]);
+                CubeObjectPooling.Instance.PickupReturnToPool(pickupList[i]);
             }
         }
         pickupList.Clear();
@@ -175,6 +182,11 @@ public class Spawner : MonoBehaviour
     public void RemoveCube(CubeScript cube)
     {
         cubesList.Remove(cube);
+    }
+
+    public void RemovePickup(GameObject pickup)
+    {
+        pickupList.Remove(pickup);
     }
     
 

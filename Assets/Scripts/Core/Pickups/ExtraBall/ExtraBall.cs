@@ -23,7 +23,9 @@ public class ExtraBall : MonoBehaviour
             Debug.Log(ballSize);
             _ballManager.CreateBall(ballSize);
             Debug.Log("Created Ball");
-            Destroy(this.gameObject);
+            //Destroy(this.gameObject);
+            CubeObjectPooling.Instance.PickupReturnToPool(this.gameObject);
+            _spawnerScirpt.RemovePickup(this.gameObject);
         }
     }
 }

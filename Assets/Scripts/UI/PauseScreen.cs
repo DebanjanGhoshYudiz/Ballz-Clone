@@ -5,20 +5,6 @@ using UnityEngine.UI;
 
 public class PauseScreen : MonoBehaviour
 {
-    [Header("Script Reference")]
-    [SerializeField] private GameStateManager gameStateManager;
-    [SerializeField] private SwipeController swipeController;
-    [SerializeField] private BallManager ballManager;
-
-    [Header("UI")]
-    [SerializeField] private Canvas pausedCanvas;
-    
-    [Header("Variable")]
-    [SerializeField] private GameObject mainBall;
-    [SerializeField] private Rigidbody2D mainBallRb2D;
-    
-
-
     [Header("Audio")]
     public bool sfxIsPlaying = true;
     public Image sfxBtn;
@@ -30,14 +16,12 @@ public class PauseScreen : MonoBehaviour
     
     public void OnClickContinue()
     {
-        gameStateManager.currentGameState = GameState.Gameplay;
-        gameStateManager.main?.Invoke(Screens.GameplayScreen);
+        UIManager.instance.ShowScreen(Screens.GameplayScreen);
         GameEvents.PauseOnResume();
     }
 
     public void OnClickMainMenu()
     {
-        gameStateManager.currentGameState = GameState.MainMenu;
         SceneManager.LoadScene(0);
     }
     
