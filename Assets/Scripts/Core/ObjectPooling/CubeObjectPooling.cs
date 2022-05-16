@@ -22,8 +22,11 @@ public class CubeObjectPooling : MonoBehaviour
     public GameObject ballPrefabHolder;
 
     [Header("Pickup")] 
-    public List<PickupContent> pickupList;
-    public Queue<GameObject> pickupQueue = new Queue<GameObject>();
+    public List<PickUp> pickupPrefabs = new List<PickUp>();
+    public List<PickUp> pickupList = new List<PickUp>();
+    private PickUp prefab;
+    
+
 
     private void Awake()
     {
@@ -35,6 +38,12 @@ public class CubeObjectPooling : MonoBehaviour
         {
             Instance = this;
         }
+    }
+
+    private void Start()
+    {
+        AddPickups(2, Pickup.coin);
+        AddPickups(2, Pickup.extraBall);
     }
 
     // Cube
@@ -95,39 +104,51 @@ public class CubeObjectPooling : MonoBehaviour
     
     //Pickup
     [System.Serializable]
-    public class PickupContent
+    public class PickUp
     {
-        public Pickup pickupEnum;
-        public GameObject prefabPickup;
+        public Pickup pickEnum;
+        public GameObject pickupPrefab;
     }
 
     public GameObject GetPickup(Pickup pickup)
     {
-        if (pickupQueue.Count == 0)
+        prefab = pickupList.Find(x => x.pickEnum == pickup);
+        if (prefab == null)
         {
-            AddObjectsPickup(1, pickup);
+            AddPickups(1, pickup);
+            prefab = pickupList[pickupList.Count - 1];
+            Debug.Log("Prefab name: " + prefab.pickupPrefab.name);
         }
-
-        return pickupQueue.Dequeue();
+        else
+        {
+            Debug.Log("Prefab name Not Null: " + prefab.pickupPrefab.name);
+            pickupList.Remove(prefab);
+        }
+        return prefab.pickupPrefab;
     }
 
-    public void AddObjectsPickup(int count, Pickup pickup)
+    public void AddPickups(int count, Pickup pickup)
     {
         for (int index = 0; index < count; index++)
         {
-            GameObject findObj = pickupList.Find(x => x.pickupEnum == pickup).prefabPickup;
-            GameObject prefab = Instantiate(findObj);
-            prefab.gameObject.SetActive(false);
-            pickupQueue.Enqueue(prefab);
+            GameObject prefab = pickupPrefabs.Find(x => x.pickEnum == pickup).pickupPrefab;
+            GameObject instantiatedPrefab = Instantiate(prefab);
+            instantiatedPrefab.gameObject.SetActive(false);
+            PickUp data = new PickUp();
+            data.pickEnum = pickup;
+            data.pickupPrefab = instantiatedPrefab;
+            pickupList.Add(data);
         }
     }
 
-    public void PickupReturnToPool(GameObject pickupGo)
+    public void PickupReturnToPool(GameObject pickupGO, Pickup pickup)
     {
-        pickupGo.gameObject.SetActive(false);
-        pickupQueue.Enqueue(pickupGo);
+        pickupGO.SetActive(false);
+        pickupList.Add(new PickUp{pickEnum = pickup, pickupPrefab = pickupGO});
     }
 
-   
+
+
+
 
 }

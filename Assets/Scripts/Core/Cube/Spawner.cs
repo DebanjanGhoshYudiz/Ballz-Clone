@@ -15,7 +15,7 @@ public class Spawner : MonoBehaviour
     [SerializeField] private GameObject coinPrefab;
     private int _coinLineSpawned = 0;
     private int _randomLineSpawned;
-    public List<GameObject> pickupList;
+    public List<CubeObjectPooling.PickUp> pickupList;
     
     
     [Header("Extra ball Pickup")]
@@ -68,7 +68,7 @@ public class Spawner : MonoBehaviour
                 GameObject anotherPrefab = CubeObjectPooling.Instance.GetPickup(Pickup.coin);
                 anotherPrefab.transform.position = randomXPos;
                 anotherPrefab.gameObject.SetActive(true);
-                pickupList.Add(anotherPrefab);
+                pickupList.Add(new CubeObjectPooling.PickUp{pickEnum = Pickup.coin, pickupPrefab = anotherPrefab});
             }
             GenerateRandomCoinLine();
         }
@@ -84,7 +84,7 @@ public class Spawner : MonoBehaviour
                 GameObject anotherPrefab = CubeObjectPooling.Instance.GetPickup(Pickup.extraBall);
                 anotherPrefab.transform.position = randomXPos;
                 anotherPrefab.gameObject.SetActive(true);
-                pickupList.Add(anotherPrefab);
+                pickupList.Add(new CubeObjectPooling.PickUp{pickEnum = Pickup.extraBall, pickupPrefab = anotherPrefab});
             }
             GenerateRandomExtraBallLine();
         }
@@ -126,7 +126,7 @@ public class Spawner : MonoBehaviour
         for (int i = 0; i < pickupList.Count; i++)
         {
             if (pickupList[i] != null)
-                pickupList[i].transform.position -= new Vector3(0, -1.5f) * _cubeOffsetDown;
+                pickupList[i].pickupPrefab.transform.position -= new Vector3(0, -1.5f) * _cubeOffsetDown;
         }
         
         AudioManager.instance.PlaySfx(nextLevelAudioClip);
@@ -166,7 +166,8 @@ public class Spawner : MonoBehaviour
             if (pickupList[i] != null)
             {
                 //Destroy(pickupList[i]);
-                CubeObjectPooling.Instance.PickupReturnToPool(pickupList[i]);
+                Pickup pick = pickupList[i].pickEnum;
+                CubeObjectPooling.Instance.PickupReturnToPool(pickupList[i].pickupPrefab, pick);
             }
         }
         pickupList.Clear();
@@ -184,9 +185,10 @@ public class Spawner : MonoBehaviour
         cubesList.Remove(cube);
     }
 
-    public void RemovePickup(GameObject pickup)
+    public void RemovePickup(Pickup pickup)
     {
-        pickupList.Remove(pickup);
+        CubeObjectPooling.PickUp prefab = pickupList.Find(x => x.pickEnum == pickup);
+        pickupList.Remove(prefab);
     }
     
 

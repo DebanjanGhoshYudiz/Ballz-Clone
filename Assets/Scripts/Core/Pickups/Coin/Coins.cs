@@ -22,8 +22,8 @@ public class Coins : MonoBehaviour
             Debug.Log(coinManagerScriptableObj.noOfCoinsCollected);
             coinManagerScriptableObj.updateCoin?.Invoke();
             //Destroy(this.gameObject);
-            CubeObjectPooling.Instance.PickupReturnToPool(this.gameObject);
-            _spawnerScript.RemovePickup(this.gameObject);
+            CubeObjectPooling.Instance.PickupReturnToPool(this.gameObject, Pickup.coin);
+            _spawnerScript.RemovePickup(Pickup.coin);
         }
     }
 }

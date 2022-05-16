@@ -567,11 +567,12 @@ MonoBehaviour:
   ballPrefab: {fileID: 7697268294896083311, guid: c9a14ae23427e43cd9138cdd86404c50, type: 3}
   noOfBallToPool: 2
   ballPrefabHolder: {fileID: 1515219352}
-  pickupList:
-  - pickupEnum: 0
-    prefabPickup: {fileID: 8444336872440806049, guid: 1fb789ed0b3724202ba97d630b1cbb3b, type: 3}
-  - pickupEnum: 1
-    prefabPickup: {fileID: 1036300398221280328, guid: bfe4ba46e852d40cab557a288f4309d4, type: 3}
+  pickupPrefabs:
+  - pickEnum: 0
+    pickupPrefab: {fileID: 8444336872440806049, guid: 1fb789ed0b3724202ba97d630b1cbb3b, type: 3}
+  - pickEnum: 1
+    pickupPrefab: {fileID: 1036300398221280328, guid: bfe4ba46e852d40cab557a288f4309d4, type: 3}
+  pickupList: []
 --- !u!4 &66324583
 Transform:
   m_ObjectHideFlags: 0
